@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function () {
     const columnas = ["NOMBRE", "GÉNERO", "NIVEL SOCIOECONÓMICO", "OCUPACIÓN", "ÍNDICE", "MONTO REQUERIDO"];
     const datos = [
         ["ANA GÓMEZ", "FEMENINO", "BAJO", "ESTUDIANTE", 91.5, "RD$450,000"],
@@ -18,114 +18,118 @@ document.addEventListener('DOMContentLoaded', function () {
         ["ISABEL MEDINA", "FEMENINO", "MEDIO", "ESTUDIANTE", 91.2, "RD$470,000"]
     ];
 
-    const tableId = '#tablaPostulantes';
-    const thead = document.querySelector(`${tableId} thead`);
-    const tbody = document.querySelector(`${tableId} tbody`);
+    const $table = $('#tablaPostulantes');
+    const $thead = $table.find('thead');
+    const $tbody = $table.find('tbody');
 
-    if ($.fn.DataTable.isDataTable(tableId)) {
-        $(tableId).DataTable().destroy();
+    if ($.fn.DataTable.isDataTable($table)) {
+        $table.DataTable().destroy();
     }
 
-    thead.innerHTML = '<tr></tr>';
-    tbody.innerHTML = '';
+    $thead.empty().append('<tr></tr>');
+    const $theadRow = $thead.find('tr');
 
-    const theadRow = thead.querySelector('tr');
-    columnas.forEach(col => {
-        const th = document.createElement('th');
-        th.textContent = col;
-        th.classList.add('text-center');
-        theadRow.appendChild(th);
+    $.each(columnas, function (_, col) {
+        $('<th>', {
+            text: col,
+            class: 'text-center'
+        }).appendTo($theadRow);
     });
 
-    datos.forEach(row => {
-        const tr = document.createElement('tr');
-        row.forEach((cell, index) => {
-            const td = document.createElement('td');
-            td.classList.add('text-center');
-
-            if (index === 3) { // OCUPACIÓN
-                const span = document.createElement('span');
-                span.textContent = cell;
-
+    $tbody.empty();
+    $.each(datos, function (_, row) {
+        const $tr = $('<tr>');
+        $.each(row, function (index, cell) {
+            const $td = $('<td>').addClass('text-center');
+            if (index === 3) {
                 const clase = {
                     "ESTUDIANTE": "badge-gradient-estudiante",
                     "EMPLEADO": "badge-gradient-empleado",
                     "DESEMPLEADO": "badge-gradient-desempleado",
                     "TRABAJO LIBRE": "badge-gradient-trabajo-libre"
                 }[cell] || "";
-
-                span.classList.add('badge', clase);
-                td.appendChild(span);
+                $('<span>', {
+                    text: cell,
+                    class: 'badge ' + clase
+                }).appendTo($td);
             } else {
-                td.textContent = cell;
+                $td.text(cell);
             }
-
-            tr.appendChild(td);
+            $tr.append($td);
         });
-        tbody.appendChild(tr);
+        $tbody.append($tr);
     });
 
-    $(tableId).DataTable({
+    $table.DataTable({
         responsive: true,
-        columnDefs: [
-        {
-            targets: 4, // Índice está en la columna 4 (comenzando desde 0)
-            type: 'num' // asegúrate que sea tratada como número
-        }
-        ],
+        columnDefs: [{
+            targets: 4,
+            type: 'num'
+        }],
         language: {
             url: "//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json"
         },
         pageLength: 10
     });
 
+    // Sliders
+    const edadSlider = $('#edadSlider');
+    const indiceSlider = $('indiceSlider');
 
-  
-  const edadSlider = document.getElementById('edadSlider');
-  const indiceSlider = document.getElementById('indiceSlider');
+    noUiSlider.create(edadSlider, {
+        start: [10, 70],
+        connect: true,
+        step: 1,
+        range: { min: 10, max: 70 },
+        format: {
+            to: value => Math.round(value),
+            from: value => Number(value)
+        }
+    });
 
-  noUiSlider.create(edadSlider, {
-    start: [10, 70], 
-    connect: true,
-    step: 1,
-    range: {
-      'min': 10,
-      'max': 70
-    },
-    format: {
-      to: value => Math.round(value),
-      from: value => Number(value)
-    }
-  });
+    noUiSlider.create(indiceSlider, {
+        start: [0, 100],
+        connect: true,
+        step: 1,
+        range: { min: 0, max: 100 },
+        format: {
+            to: value => Math.round(value),
+            from: value => Number(value)
+        }
+    });
 
-  const edadMin = document.getElementById('edadMin');
-  const edadMax = document.getElementById('edadMax');
+    const $edadMin = $('#edadMin');
+    const $edadMax = $('#edadMax');
+    const $indiceMin = $('#indiceMin');
+    const $indiceMax = $('#indiceMax');
 
-  edadSlider.noUiSlider.on('update', (values) => {
-    edadMin.textContent = values[0];
-    edadMax.textContent = values[1];
-  });
+    // Referencias a los input hidden
+    const $inputEdadMin = $('#inputEdadMin');
+    const $inputEdadMax = $('#inputEdadMax');
+    const $inputIndiceMin = $('#inputIndiceMin');
+    const $inputIndiceMax = $('#inputIndiceMax');
 
-  noUiSlider.create(indiceSlider, {
-    start: [0, 100], 
-    connect: true,
-    step: 1,
-    range: {
-      'min': 0,
-      'max': 100
-    },
-    format: {
-      to: value => Math.round(value),
-      from: value => Number(value)
-    }
-  });
+    edadSlider.noUiSlider.on('update', function (values) {
+        $edadMin.text(values[0]);
+        $edadMax.text(values[1]);
+        $inputEdadMin.val(values[0]);
+        $inputEdadMax.val(values[1]);
+    });
 
-  const indiceMin = document.getElementById('indiceMin');
-  const indiceMax = document.getElementById('indiceMax');
+    indiceSlider.noUiSlider.on('update', function (values) {
+        $indiceMin.text(values[0]);
+        $indiceMax.text(values[1]);
+        $inputIndiceMin.val(values[0]);
+        $inputIndiceMax.val(values[1]);
+    });
+});
 
-  indiceSlider.noUiSlider.on('update', (values) => {
-    indiceMin.textContent = values[0];
-    indiceMax.textContent = values[1];
-  });
+// BOTÓN: PROCESAR FILTROS DE PRIORIDAD.
 
+$('#processBtn').on('click', function (e) {
+    e.preventDefault(); // evita que recargue si es necesario hacer validaciones
+
+    // Puedes hacer validaciones aquí si quieres
+
+    $('#formFiltros').submit(); // envía el formulario al backend
 });
