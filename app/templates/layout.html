@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <title>{% block title %}SABELAYOUT{% endblock %}</title>
+
+
+    <link href="{{ url_for('static', filename='CustomStyles/DataTable.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='CustomStyles/layout.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/viewStyles.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/fonts.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/icon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.ico') }}" type="image/x-icon">
+    <link href="{{ url_for('static', filename='Fonts/FontsConfigurations/Poppins.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/selectize.default.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nouislider.min.css') }}" />
+
+
+    <link href="{{ url_for('static', filename='CustomStyles/modulos.css') }}" rel="stylesheet" />
+     {% block styles %}{% endblock %}
+    
+
+    <!-- Fonts and icons -->
+    <script src="{{ url_for('static', filename='js/plugin/webfont/webfont.min.js') }}"></script>
+    <script type="text/javascript">
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["{{ url_for('static', filename='css/fonts.min.css') }}"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plugins.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/kaiadmin.min.css') }}" />
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar" data-background-color="dark">
+            <div class="sidebar-logo">
+                <!-- Logo Header -->
+                <div class="logo-header bgSidebar2">
+                    <a href="#" target="_blank" class="logo" id="cambiarLogo">
+                        <img src="{{ url_for('static', filename='img/logo_sabe_fondo_blanco.png') }}"
+                             alt="navbar brand"
+                             class="navbar-brand logo-navbar"
+                             height="57"
+                              />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+                <!-- End Logo Header -->
+            </div>
+            <div class="sidebar-wrapper scrollbar scrollbar-inner bgSidebar">
+                <div class="sidebar-content">
+                    <ul class="nav nav-secondary">      
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-home"></i>
+                                <p>Inicio</p>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-user-graduate"></i>
+                                <p>Gestión de Becas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-file-alt"></i>
+                                <p>Gestión de Reportes</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Sidebar -->
+
+        <div class="main-panel">
+            <div class="main-header">
+                <div class="main-header-logo">
+                    <!-- Logo Header -->
+                    <div class="logo-header" data-background-color="dark">
+                        <a href="index.html" class="logo">
+                            <img src="{{ url_for('static', filename='img/logo_sabe_fondo_blanco.png') }}"
+                                 alt="navbar brand"
+                                 class="navbar-brand"
+                                 height="20" />
+                        </a>
+                        <div class="nav-toggle">
+                            <button class="btn btn-toggle toggle-sidebar">
+                                <i class="gg-menu-right"></i>
+                            </button>
+                            <button class="btn btn-toggle sidenav-toggler">
+                                <i class="gg-menu-left"></i>
+                            </button>
+                        </div>
+                        <button class="topbar-toggler more">
+                            <i class="gg-more-vertical-alt"></i>
+                        </button>
+                    </div>
+                    <!-- End Logo Header -->
+                </div>
+
+                <!-- Navbar Header -->
+                <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+                    <div class="container-fluid">
+                        <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                            <li class="nav-item topbar-user dropdown hidden-caret">
+                                <a class="dropdown-toggle profile-pic"
+                                   data-bs-toggle="dropdown"
+                                   href="#"
+                                   aria-expanded="false">
+                                    <i class="fa fa-user"></i>
+                                    <span class="profile-username">
+                                        <span class="op-7 text-dark">Hola,</span>
+                                        <span class="fw-bold">José! 👋</span>
+                                    </span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-user animated fadeIn scrollbar-outer">
+                                    <li>
+                                        <div class="user-box">
+                                            <div class="u-text">
+                                                <label class="fw-bold">Usuario: <span class="fw-normal">José Romero</span></label><br>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="btn btn-danger btn-sm d-flex align-items-center">
+                                    <i class="fas fa-sign-out-alt me-2 fs-5"></i>
+                                    CERRAR SESIÓN
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- End Navbar -->
+            </div>
+
+
+            <div class="container">
+                <div class="page-inner">
+                     {% block content %}{% endblock %}
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid d-flex justify-content-between">
+                    <nav class="pull-left col-5 col-sm-3 ">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" target="_blank">
+                                    <img src="{{ url_for('static', filename='img/logo_sabe.png') }}" class="logoSabeFooter" alt="Logo SABE" />
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    
+                    <div class="text-center align-middle col-6 col-sm-5">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <span class="copyrightMinerd">Sistema de Asignación de Becas Educativas - SABE: El sistema que SABE elegir con justicia a quienes más lo necesitan. &copy; {{ current_year }}. <b>Todos los derechos Reservados.</b></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="social-icons text-end align-middle mt-sm-3 col-4 mt-2 col-sm-3">
+                        <a href="#" target="_blank" class="me-3 fs-3 redes-sociales"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank" class="me-3 fs-3 redes-sociales"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" class="fs-3redes-sociales"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!--   Este JS debe estar arriba de Scripts.Render()   -->
+    <script src="{{ url_for('static', filename='js/core/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/core/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/core/bootstrap.min.js') }}"></script>
+
+
+    <!--   Core JS Files   -->
+    <script src="{{ url_for('static', filename='js/core/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/core/bootstrap.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/plugin/jquery-mask/jquery.mask.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugin/jquery-mask/jquery.maskedinput.js') }}"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="{{ url_for('static', filename='js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
+
+    <!-- Chart JS -->
+    <script src="{{ url_for('static', filename='js/plugin/chart.js/chart.min.js') }}"></script>
+
+    <!-- Sweet Alert -->
+    <script src="{{ url_for('static', filename='js/plugin/sweetalert/sweetalert2@11.js') }}"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="{{ url_for('static', filename='js/kaiadmin.min.js') }}"></script>
+
+    <!-- Datatables -->
+     <script src="{{ url_for('static', filename='js/plugin/datatables/jquery.dataTables.js') }}"></script>
+
+
+
+    <!-- Dropdown Selectiza JS -->
+    <script src="{{ url_for('static', filename='js/plugin/selectize/selectize.min.js') }}"></script>
+
+    <!-- Input Rango -->
+    <script src="{{ url_for('static', filename='js/plugin/nouislider/nouislider.min.js') }}"></script>
+
+    <!-- Renderizar los archivos JS que estén contenidos dentro de él. -->
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

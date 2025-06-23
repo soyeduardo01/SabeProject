@@ -1,0 +1,211 @@
+:root {
+    --primary-dark: #004030;
+    --primary-medium: #027155;
+    --primary-light: #00f7b9;
+    --gradient-primary: linear-gradient(135deg, #004030 0%, #027155 50%, #00f7b9 100%);
+    --gradient-card: linear-gradient(145deg, rgba(0, 64, 48, 0.05) 0%, rgba(2, 113, 85, 0.1) 100%);
+    --shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-card: 0 8px 25px rgba(0, 64, 48, 0.15);
+    --shadow-glow: 0 0 20px rgba(0, 247, 185, 0.3);
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Rocket Hide on Mobile */
+@media (max-width: 768px) {
+    .rocket-image {
+        display: none;
+    }
+    .typewriter {
+        font-size: 1.5rem;
+        border-right-width: 2px;
+    }
+    .welcome-header .subtitle {
+        font-size: 1.75rem;
+    }
+    .welcome-header {
+        padding-bottom: 3rem;
+    }
+}
+
+/* Modern Card Updates */
+.modern-card {
+    background: white;
+    border: none;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-subtle);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.modern-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(270deg, #00f7b9, #027155, #004030);
+    background-size: 600% 600%;
+    border-radius: 15px 15px 0 0;
+    animation: move-gradient 8s ease infinite;
+}
+
+@keyframes move-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.modern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+}
+
+/* Uniform Padding and Width for All Cards */
+.modern-card h5,
+.modern-card .form-label,
+.file-upload-area,
+.alert {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Welcome Header Adjustments */
+.welcome-header {
+    background: var(--gradient-primary);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+}
+
+.welcome-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.welcome-header .subtitle {
+    font-size: 2rem;
+    font-weight: 700;
+    opacity: 0.95;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-header .description {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+/* CTA Style */
+.welcome-header .cta-button {
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: white;
+    color: var(--primary-dark);
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1.25rem;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+}
+
+.welcome-header .cta-button:hover {
+    transform: translateY(-2px);
+    background-color: var(--primary-light);
+    color: white;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Rocket Animation */
+.rocket-image {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+    max-height: 250px;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.rocket-image:hover {
+    transform: scale(1.1) translateY(-5px);
+}
+
+/* Remove Green Outline on Card Hover */
+.card:hover, .modern-card:hover {
+    border: none !important;
+    outline: none !important;
+    box-shadow: var(--shadow-card);
+}
+
+
+
+.dropzone-wrapper {
+    border: 2.5px dashed var(--primary-light);
+    border-radius: 15px;
+    background-color: #f0fdfb;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: border-color 0.3s, background-color 0.3s;
+    cursor: pointer;
+    position: relative;
+    box-shadow: var(--shadow-subtle);
+}
+
+.dropzone-wrapper:hover {
+    background-color: #e7fdf6;
+    border-color: var(--primary-medium);
+}
+
+.dropzone-wrapper.dragover {
+    background-color: #d9fff0;
+    border-color: var(--primary-dark);
+}
+
+.dropzone-icon {
+    margin-bottom: 1rem;
+    color: var(--primary-medium);
+    animation: pulse 2s infinite;
+}
+
+.dropzone-text h4 {
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.dropzone-text p {
+    font-size: 0.95rem;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.85; }
+    100% { transform: scale(1); opacity: 1; }
+}

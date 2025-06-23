@@ -1,0 +1,176 @@
+﻿
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", 'Font Awesome 5 Solid', 'Font Awesome 5 Brands', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.fa, .fas {
+    font-family: 'Font Awesome 5 Solid' !important;
+}
+
+
+body, html {
+    height: 100%;
+}
+
+body {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 120px;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../Imagenes/Errores/fondo-blanco.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3; /* Ajusta la transparencia aquí */
+    z-index: -1;
+}
+
+.container {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+img {
+    max-width: 650px;
+    height: auto;
+}
+
+.imgError400 {
+    width: 40%
+}
+
+
+.imgError401 {
+    width: 40%
+}
+
+.imgError404 {
+    width: 57%
+}
+
+
+
+.imgError429 {
+    width: 35%
+}
+
+.imgError503 {
+    width: 32%
+}
+
+.imgError504 {
+    width: 33%
+}
+
+
+
+h1 {
+    font-size: 36px;
+    margin: 20px 0px 0px 0px;
+}
+
+hr {
+    width: 500px;
+    height: 8px; /* Simula el grosor del borde */
+    margin: 10px auto 30px;
+    background-image: linear-gradient(to right, #2f47ff 0%, #da0651 51%, #2f47ff 100%);
+    border: none;
+    border-radius: 10px;
+}
+
+p {
+    font-size: 18px;
+    color: #333;
+    max-width: 50%;
+    margin: 0px auto;
+}
+
+.main-content {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: auto;
+}
+.imgDGTIC {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 10px 0px 0px 10px;
+    height: auto;
+    width: 230px;
+}
+
+.atribucion a {
+    text-decoration: none;
+    color: lightgray;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+
+
+
+
+
+/* Evita que el color del enlace cambie después de hacer clic */
+.btnVolverAtras a {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+}
+
+
+
+
+.btnVolverAtras {
+    border-radius: 30px !important;
+    background-image: linear-gradient(to right, #2f47ff 0%, #da0651 51%, #2f47ff 100%) !important;
+    background-size: 200% auto;
+    background-position: left center;
+    border-color: transparent !important;
+    color: white;
+    font-weight: bold;
+    margin-top: 1.7rem;
+    transition: background-position 0.5s ease-in-out;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+    .btnVolverAtras:active {
+        background-position: right center;
+        transform: scale(0.98);
+        border-color: transparent !important;
+    }
+
+    .btnVolverAtras:hover,
+    .btnVolverAtras:focus {
+        background-position: right center;
+        border-color: transparent !important;
+        color: white;
+        text-decoration: none;
+    }
+
+    .btnVolverAtras:disabled {
+        border-color: transparent !important;
+        background-position: left center;
+        color: white;
+        opacity: 0.6;
+        cursor: not-allowed;
+    }

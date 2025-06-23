@@ -1,0 +1,278 @@
+﻿.poppins {
+    font-family: "Poppins", 'Font Awesome 5 Solid', 'Font Awesome 5 Brands', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+
+.required-label::after {
+    content: " *";
+    color: crimson;
+}
+
+.swal2-confirm.btn-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: #fff;
+}
+
+
+.swal2-confirm.btn-danger:hover {
+    background-color: #c82333; 
+    border-color: #bd2130;
+}
+
+
+.swal2-cancel.btn-secondary {
+    background-color: #6c757d; 
+    border-color: #6c757d; 
+    color: #fff; 
+}
+
+.swal2-confirm:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.btn-excel img {
+    width: 24px;
+    margin-right: 7px;
+}
+
+.btn-excel {
+    background-color: #a3cfbb;
+    color: #0f3623;
+}
+
+.btn{
+    justify-content: left !important;
+}
+
+.btn-convenio {
+    font-size: clamp(0.4em, 1vw, 1em); 
+    padding: 0.4em 0.8em; 
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+}
+
+
+
+
+.badge-gradient-empleado {
+    background-image: linear-gradient(to right, #38bcdd 0%, #00A2FF 51%, #38bcdd 100%) !important;
+    background-size: 200% auto;
+    background-position: left center;
+    border: none;
+    color: white !important;
+    transition: background-position 0.5s ease-in-out;
+    cursor: default;
+}
+
+.badge-gradient-empleado:hover,
+.badge-gradient-empleado:focus {
+    background-position: right center;
+    color: white !important;
+}
+
+.badge-gradient-estudiante {
+    background-image: linear-gradient(to right, #56ab2f 0%, #90E027 51%, #56ab2f 100%) !important;
+    background-size: 200% auto;
+    background-position: left center;
+    border: none;
+    color: white !important;
+    transition: background-position 0.5s ease-in-out;
+    cursor: default;
+}
+
+.badge-gradient-estudiante:hover,
+.badge-gradient-estudiante:focus {
+    background-position: right center;
+    color: white !important;
+}
+
+.badge-gradient-desempleado {
+    background-image: linear-gradient(to right, #AD0000 0%, #F70000 51%, #AD0000 100%) !important;
+    background-size: 200% auto;
+    background-position: left center;
+    border: none;
+    color: white !important;
+    transition: background-position 0.5s ease-in-out;
+    cursor: default;
+}
+
+.badge-gradient-desempleado:hover,
+.badge-gradient-desempleado:focus {
+    background-position: right center;
+    color: white !important;
+}
+
+.badge-gradient-trabajo-libre {
+    background-image: linear-gradient(to right, #7A7A7A 0%, #ADADAD 51%, #7A7A7A 100%) !important;
+    background-size: 200% auto;
+    background-position: left center;
+    border: none;
+    color: white !important;
+    transition: background-position 0.5s ease-in-out;
+    cursor: default;
+}
+
+    .badge-gradient-trabajo-libre:hover,
+    .badge-gradient-trabajo-libre:focus {
+        background-position: right center;
+        color: white !important;
+    }
+
+
+input[readonly] {
+    background-color: #e9ecef; 
+    color: #6c757d; 
+    border: 1px solid #ced4da; 
+    cursor: not-allowed; 
+}
+
+input[readonly]:focus {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+    box-shadow: none;
+}
+
+.btnTitulos{
+    text-align: start !important;
+    border-radius: 8px !important;
+    cursor: default;
+}
+
+
+.btnTitulos:hover {
+    cursor: default;
+}
+
+.form-control.selectize-control.single {
+    padding: 0; 
+    border: none; 
+}
+
+.selectize-input {
+    width: 100% !important;
+    background: #fff !important;
+    border: 1px solid #dadfe5;
+    border-radius: 0.375rem;
+    padding: 0.50rem 0.75rem;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Para el dropdown desplegado */
+.selectize-dropdown.form-control {
+    border-radius: 0.375rem; 
+    border: 1px solid #ced4da; 
+    background-color: #fff; 
+}
+
+/* Estilo para las opciones dentro del dropdown */
+.selectize-dropdown .option {
+    padding: 0.375rem 0.75rem; 
+    cursor: pointer;
+}
+
+
+/* Estilo para el icono de basura del dropdown */
+.clear{
+    width: 35px !important;
+    padding-right: 15px !important;
+    color: darkred !important;
+}
+
+.espacio-en-blanco {
+    width: 24px;
+    height: 24px;
+}
+
+#labelTieneConvenio {
+    font-size: 14px !important;
+}
+
+/* Estilos para las nav-tabs */
+
+.nav-tabs .nav-link {
+    background-image: linear-gradient(to right, #FDC601 0%, #FDE401 51%, #FDC601 100%) !important;
+    background-size: 200% auto !important;
+    background-position: left center !important;
+    border-color: transparent !important;
+    color: #7f3c0d !important;
+    transition: background-position 0.5s ease-in-out !important;
+}
+
+    .nav-tabs .nav-link:hover {
+        background-position: right center !important;
+        border-color: transparent !important;
+        color: #7f3c0d !important;
+        text-decoration: none !important;
+    }
+
+
+.nav-tabs .nav-link:active {
+    background-image: linear-gradient(to right, #FF7B00 0%,#ffb007 51%, #FF7B00 100%) !important;
+    background-size: 200% auto !important;
+    background-position: left center !important;
+    border-color: transparent !important;
+    color: white !important;
+    transition: background-position 0.5s ease-in-out !important;
+}
+
+    .nav-tabs .nav-link:active:hover {
+        background-position: right center !important;
+        border-color: transparent !important;
+        color: white !important;
+        text-decoration: none !important;
+    }
+
+.nav-tabs .nav-link {
+    background-image: linear-gradient(to right, #FDC601 0%, #FDE401 51%, #FDC601 100%) !important;
+    background-size: 200% auto !important;
+    background-position: left center !important;
+    border-color: transparent !important;
+    color: #7f3c0d !important;
+    transition: background-position 0.5s ease-in-out !important;
+}
+
+.nav-tabs .nav-link:hover {
+    background-position: right center !important;
+    border-color: transparent !important;
+    color: #7f3c0d !important;
+    text-decoration: none !important;
+}
+
+.nav-tabs .nav-link.active {
+    background-image: linear-gradient(to right, #FF7B00 0%,#ffb007 51%, #FF7B00 100%) !important;
+    background-size: 200% auto !important;
+    background-position: left center !important;
+    border-color: transparent !important;
+    color: white !important;
+    transition: background-position 0.5s ease-in-out !important;
+}
+
+   
+.nav-tabs .nav-link.active:hover {
+    background-position: right center !important;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.check-identificacion {
+    padding: 2px !important;
+}
+
+@media (max-width: 600px) {
+    .btn-convenio {
+        font-size: 0.75em;
+    }
+}
+
+@media (min-width:1200px) {
+    .modal-xl {
+        --bs-modal-width: 1280px !important;
+    }
+
+    .modal-xl.modal-xxl-personalizado {
+        --bs-modal-width: 1680px !important;
+    }
+}

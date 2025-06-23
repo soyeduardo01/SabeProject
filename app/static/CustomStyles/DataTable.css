@@ -1,0 +1,111 @@
+﻿/* Estilos generales para la tabla */
+.dataTable-wrapper {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 40px 0;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.05);
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.fondoTabla {
+    box-shadow: 0px 7px 7px -1px rgba(0,0,0,0.17);
+    border-radius: 18px;
+}
+
+
+
+/* Estilos para la tabla */
+table.dataTable {
+    width: 100%;
+    padding: 18px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    /* Cabecera de la tabla */
+    table.dataTable thead th {
+        background-color: #f9f9f9;
+        color: #333;
+        font-weight: bold;
+        padding: 10px 18px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Filas y celdas de la tabla */
+    table.dataTable tbody td {
+        padding: 8px 18px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Hover state para filas */
+    table.dataTable tbody tr:hover {
+        background-color: #f4f4f4;
+    }
+
+/* Contenedor de paginación */
+.dataTables_wrapper .dataTables_paginate {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem;
+}
+
+    /* Botones de paginación */
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 6px 12px;
+        margin: 0 4px;
+        margin-bottom: 2rem;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        cursor: pointer;
+        background-color: #fff;
+        color: #333;
+        text-decoration:none;
+    }
+
+        /* Hover states para botones de paginación */
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #e9e9e9;
+            border-color: #ddd;
+        }
+
+        /* Estilo para el botón activo de paginación */
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            color: #fff !important;
+            border-color: #007bff;
+            background-color: #007bff;
+        }
+
+/* Estilos para el control de búsqueda */
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+    margin-top: 1rem;
+    padding: 18px;
+}
+
+    .dataTables_wrapper .dataTables_filter input {
+        margin-left: 0.5em;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        padding: 6px;
+    }
+
+/* Estilos para el selector de cantidad de entradas */
+.dataTables_wrapper .dataTables_length {
+    float: left;
+    padding: 18px;
+}
+
+    .dataTables_wrapper .dataTables_length select {
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        padding: 6px;
+        background-color: white;
+    }
+
+/* Estilos para la sección de información de la paginación */
+.dataTables_wrapper .dataTables_info {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}

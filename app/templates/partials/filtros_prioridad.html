@@ -1,0 +1,131 @@
+
+{% block styles %}
+    <link href="{{ url_for('static', filename='CustomStyles/asignacionBecas.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<div id="filtros" class="modern-card fade-in mb-5">
+    <h5 class="mb-4"><i class="fas fa-filter me-3"></i>Filtros de Prioridad</h5>
+    <div class="row">
+        <!-- Índice Académico -->
+         <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Rango del Índice Académico</label>
+            <div id="indiceSlider"></div>
+            <div class="mt-2 text-muted text-center">
+                <span id="indiceMin">0</span> años hasta <span id="indiceMax">100</span> años
+            </div>
+        </div>
+
+        <!-- Provincia Prioritaria -->
+        <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Provincia</label>
+            <select class="form-select">
+                <option>SELECCIONAR</option>
+                <option>AZUA</option>
+                <option>BAHORUCO</option>
+                <option>BARAHONA</option>
+                <option>DAJABÓN</option>
+                <option>DISTRITO NACIONAL</option>
+                <option>DUARTE</option>
+                <option>ELÍAS PIÑA</option>
+                <option>EL SEIBO</option>
+                <option>ESPAILLAT</option>
+                <option>HATO MAYOR</option>
+                <option>HERMANAS MIRABAL</option>
+                <option>INDEPENDENCIA</option>
+                <option>LA ALTAGRACIA</option>
+                <option>LA ROMANA</option>
+                <option>LA VEGA</option>
+                <option>MARÍA TRINIDAD SÁNCHEZ</option>
+                <option>MONSEÑOR NOUEL</option>
+                <option>MONTE CRISTI</option>
+                <option>MONTE PLATA</option>
+                <option>PEDERNALES</option>
+                <option>PERAVIA</option>
+                <option>PUERTO PLATA</option>
+                <option>SAMANÁ</option>
+                <option>SÁNCHEZ RAMÍREZ</option>
+                <option>SAN CRISTÓBAL</option>
+                <option>SAN JOSÉ DE OCOA</option>
+                <option>SAN JUAN</option>
+                <option>SAN PEDRO DE MACORÍS</option>
+                <option>SANTIAGO</option>
+                <option>SANTIAGO RODRÍGUEZ</option>
+                <option>SANTO DOMINGO</option>
+                <option>VALVERDE</option>
+            </select>
+        </div>
+
+        <!-- Nivel Socioeconómico -->
+        <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Nivel Socioeconómico</label>
+            <select class="form-select">
+                <option>SELECCIONAR</option>
+                <option>BAJO</option>
+                <option>MEDIO-BAJO</option>
+                <option>MEDIO</option>
+                <option>MEDIO-ALTO</option>
+                <option>ALTO</option>
+            </select>
+        </div>
+
+        <!-- Discapacidad -->
+        <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">¿Tiene Discapacidad?</label>
+            <select class="form-select">
+                <option>SELECCIONAR</option>                
+                <option>SI</option>
+                <option>NO</option>
+            </select>
+        </div>
+
+        <!-- Género -->
+        <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Género</label>
+            <select class="form-select">
+                <option>SELECCIONAR</option>   
+                <option>MASCULINO</option>
+                <option>FEMENINO</option>
+            </select>
+        </div>
+
+        <!-- Tipo de Institución de Procedencia -->
+        <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Tipo de Institución</label>
+            <select class="form-select">
+                <option>SELECCIONAR</option>   
+                <option>PÚBLICA</option>
+                <option>PRIVADA</option>
+                <option>SEMIPRIVADA</option>
+            </select>
+        </div>
+
+        <!-- Edad Máxima -->
+        <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Rango de Edad</label>
+            <div id="edadSlider"></div>
+            <div class="mt-2 text-muted text-center">
+                <span id="edadMin">10</span> años hasta <span id="edadMax">70</span> años
+            </div>
+        </div>
+
+        <!-- Ocupación -->
+        <div class="col-md-3 mb-3">
+            <label class="form-label fw-bold">Ocupación</label>
+            <select class="form-select">
+                <option>SELECCIONAR</option>   
+                <option>ESTUDIANTE</option>
+                <option>EMPLEADO</option>
+                <option>DESEMPLEADO</option>
+                <option>TRABAJO LIBRE</option>
+            </select>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/asignacionBecas.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,67 @@
+﻿.bgSidebar {
+     background: linear-gradient(180deg, #004030  0%, #027155 40%, #00f7b9   100%);
+}
+
+.bgSidebar2 {
+    background-color: #004030  !important;
+} 
+
+
+.redes-sociales{
+    color: #027155;
+}
+
+.fa-user{
+    color: #027155 !important;
+}
+
+.logo-navbar{
+    padding-left: 27px;
+}
+
+.avatar-img {
+    margin-top: 10%;
+    width: 77% !important;
+    height: 77% !important;
+}
+
+.logoSabeFooter {
+    width: 60%;
+}
+
+.modal-title {
+    color: white !important;
+}
+
+.responsive-video {
+    width: 100%;
+    height: auto;
+}
+
+
+
+@media (max-width: 991.5px) {
+    #cambiarLogo img {
+        content: url("/static/img/logo_sabe.png");
+        height: 30px;
+    }
+}
+
+
+
+@media screen and (max-width: 767px) {
+
+    .logoSabeFooter {
+        content: url("/static/img/logo_sabe.png");
+        width: 100%;
+    }
+
+    .copyrightMinerd {
+        content: "";
+        display: none;
+    }
+
+    .social-icons {
+        display: none;
+    }
+}

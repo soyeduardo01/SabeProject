@@ -1,0 +1,80 @@
+﻿.tituloColor {
+    color: #041945 !important;
+}
+
+.divContainer {
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btnCargarArchivos {
+    padding: 0 !important;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th {
+    padding: 12px 18px !important;
+}
+
+#panelsStayOpen-headerInfo .accordion-button.collapsed,
+#panelsStayOpen-headerTitulos .accordion-button.collapsed,
+#panelsStayOpen-headingOne .accordion-button.collapsed {
+    background-color: aliceblue;
+    color: #041945 !important;
+}
+
+.degradado-azul {
+    background: linear-gradient(90deg, #0D47A1 0%, #1187de 50%, #0D47A1 100%);
+}
+
+.fondoFolder {
+    background-color: #ffe586 !important;
+}
+
+.folder {
+    border-color: #ebc741 !important;
+    background-color: #ebc741 !important;
+    /*box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.1) !important;*/
+    -webkit-box-shadow: 6px -2px 5px -4px rgba(130,102,3,0.25);
+    -moz-box-shadow: 6px -2px 5px -4px rgba(130,102,3,0.25);
+    box-shadow: 6px -2px 5px -4px rgba(130,102,3,0.25);
+}
+
+
+
+
+/* Cuadro de carga de archivo */
+#formCarga {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Contenedor del input file */
+#fileUpload {
+    display: none;
+}
+
+/* Label estilizado para el input file */
+.file-upload-box {
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease-in-out;
+    background: #f8f9fa;
+}
+
+    .file-upload-box:hover {
+        background: #e2e6ea;
+        border-color: #0056b3;
+    }
+
+    /* Icono y texto dentro del cuadro de carga */
+    .file-upload-box i {
+        font-size: 40px;
+        color: #007bff;
+        margin-bottom: 10px;
+    }
