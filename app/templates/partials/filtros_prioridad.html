@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block content %}
-<form id="formFiltros" method="POST" action="{{ url_for('home.procesar_filtros') }}">
+<form id="formFiltros" method="POST" action="{{ url_for('seleccion.procesar_filtros_route') }}">
     <div id="filtros" class="modern-card fade-in mb-5">
         <h5 class="mb-4"><i class="fas fa-filter me-3"></i>Filtros de Prioridad</h5>
         <div class="row">
@@ -136,9 +136,6 @@
                     <input type="text" class="form-control" name="Presupuesto" id="Presupuesto" placeholder="0.00">
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </form>

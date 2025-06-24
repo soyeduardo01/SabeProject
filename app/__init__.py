@@ -1,6 +1,7 @@
 from flask import Flask
 from datetime import datetime
 from app.routes.home_routes import home_bp
+from app.routes.seleccion_routes import seleccion_bp
 
 def create_app():
     app = Flask(__name__)
@@ -8,6 +9,7 @@ def create_app():
 
     # Blueprint
     app.register_blueprint(home_bp)
+    app.register_blueprint(seleccion_bp)
 
     # Context processor para pasar current_year a todas las vistas
     @app.context_processor
@@ -15,3 +17,5 @@ def create_app():
         return {'current_year': datetime.now().year}
 
     return app
+
+
