@@ -73,8 +73,8 @@ $(document).ready(function () {
     });
 
     // Sliders
-    const edadSlider = $('#edadSlider');
-    const indiceSlider = $('indiceSlider');
+    const edadSlider = document.getElementById('edadSlider');
+    const indiceSlider = document.getElementById('indiceSlider');
 
     noUiSlider.create(edadSlider, {
         start: [10, 70],
@@ -103,7 +103,7 @@ $(document).ready(function () {
     const $indiceMin = $('#indiceMin');
     const $indiceMax = $('#indiceMax');
 
-    // Referencias a los input hidden
+    // NUEVO: referencias a los input hidden
     const $inputEdadMin = $('#inputEdadMin');
     const $inputEdadMax = $('#inputEdadMax');
     const $inputIndiceMin = $('#inputIndiceMin');
@@ -124,12 +124,36 @@ $(document).ready(function () {
     });
 });
 
-// BOTÓN: PROCESAR FILTROS DE PRIORIDAD.
 
-$('#processBtn').on('click', function (e) {
-    e.preventDefault(); // evita que recargue si es necesario hacer validaciones
+    function formatearConComas(valor) {
+        valor = valor.replace(/,/g, '');
 
-    // Puedes hacer validaciones aquí si quieres
+        let [parteEntera, parteDecimal] = valor.split(".");
 
-    $('#formFiltros').submit(); // envía el formulario al backend
-});
+        // Agregar comas a los miles
+        parteEntera = parteEntera.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        if (parteDecimal !== undefined) {
+            parteDecimal = parteDecimal.substring(0, 3);
+            return `${parteEntera}.${parteDecimal}`;
+        }
+
+        return parteEntera;
+    }
+
+    $('#Presupuesto').on('input', function () {
+        let posicionCursor = this.selectionStart;
+        let longitudOriginal = this.value.length;
+
+        let valorLimpio = this.value.replace(/[^\d.]/g, ''); // Solo números y punto
+        let valorFormateado = formatearConComas(valorLimpio);
+
+        this.value = valorFormateado;
+
+        // Restaurar posición del cursor
+        let nuevaLongitud = valorFormateado.length;
+        this.setSelectionRange(
+            posicionCursor + (nuevaLongitud - longitudOriginal),
+            posicionCursor + (nuevaLongitud - longitudOriginal)
+        );
+    });
