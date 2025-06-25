@@ -4,7 +4,7 @@
 
 $(document).ready(function () {
     inicializarDropzone();
-    configurarPresupuestoConFormato();
+    // configurarPresupuestoConFormato();
     configurarSliders();
 });
 
@@ -98,16 +98,19 @@ function inicializarDropzone() {
     }
 }
 
-
+/**
+ * Envia los datos al backend.
+ * Agrupa los inputs en el form data para que tome los filtros, 
+ * el tipo de algoritmo a usar y el archivo cargado.
+ */
 
 function enviarFormularioConFiltros(archivoExcel, algoritmo) {
-    const form = $('#formFiltros');
+    const form = $('#formFiltros')[0];
     const formData = new FormData(form);
 
     formData.append('archivo', archivoExcel);
     formData.append('algoritmo', algoritmo);
 
-    // Aquí harás la petición real
     fetch('/procesar-filtros', {
         method: 'POST',
         body: formData
@@ -115,11 +118,73 @@ function enviarFormularioConFiltros(archivoExcel, algoritmo) {
     .then(res => res.json())
     .then(data => {
         console.log('Datos recibidos:', data);
-        // TODO: Invocar función para llenar tablas aquí
+
+        if (data.error) {
+            mostrarAlerta("error", "Error", data.error);
+            return;
+        }
+
+        // Mostrar secciones
+        document.querySelectorAll('.modern-card').forEach(div => div.removeAttribute('hidden'));
+
+        // Llenar tablas
+        llenarTabla('tablaPostulantes', data.seleccionados);
+        llenarTabla('tablaNoPostulantes', data.no_seleccionados);
+
+        // Mostrar presupuesto
+        document.getElementById('PresupuestoSobrante').value = data.presupuesto_sobrante;
     })
     .catch(error => {
         mostrarAlerta("error", "Error en el servidor", "No se pudo procesar la selección. Intenta más tarde.");
         console.error(error);
+    });
+}
+
+
+/**
+ * Crea una tabla de datos con DataTables.
+ */
+
+function llenarTabla(idTabla, lista) {
+    const tabla = $(`#${idTabla}`);
+
+    // Destruir instancia previa si existe
+    if ($.fn.DataTable.isDataTable(tabla)) {
+        tabla.DataTable().clear().destroy();
+    }
+
+    // Limpiar encabezado y cuerpo
+    const thead = tabla.find('thead');
+    const tbody = tabla.find('tbody');
+    thead.empty();
+    tbody.empty();
+
+    if (lista.length === 0) {
+        tbody.append('<tr><td colspan="10" class="text-center text-muted">Sin resultados</td></tr>');
+        return;
+    }
+
+    // Crear encabezados desde la primera fila
+    const columnas = Object.keys(lista[0]);
+    const encabezadoHTML = columnas.map(col => `<th>${col.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</th>`).join('');
+    thead.append(`<tr>${encabezadoHTML}</tr>`);
+
+    // Crear filas del cuerpo
+    lista.forEach(item => {
+        const filaHTML = columnas.map(col => `<td>${item[col]}</td>`).join('');
+        tbody.append(`<tr>${filaHTML}</tr>`);
+    });
+
+    // Inicializar DataTable
+    tabla.DataTable({
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json'
+        },
+        pageLength: 10,
+        lengthChange: false,
+        autoWidth: false,
+        order: []
     });
 }
 

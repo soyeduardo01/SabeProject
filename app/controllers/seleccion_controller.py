@@ -46,7 +46,7 @@ def procesar_filtros():
         return jsonify({
             "seleccionados": [p.to_dict() for p in resultado["seleccionados"]],
             "no_seleccionados": [p.to_dict() for p in resultado["no_seleccionados"]],
-            "presupuesto_sobrante": f"RD${resultado['presupuesto_sobrante']:,.2f}"
+            "presupuesto_sobrante": f"{resultado['presupuesto_sobrante']:,.2f}"
         })
 
     except Exception as e:
