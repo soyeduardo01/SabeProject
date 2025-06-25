@@ -13,7 +13,12 @@ def procesar_filtros():
     try:
         archivo = request.files.get('archivo')
         algoritmo = request.form.get('algoritmo')  # Por ahora no se usa para cambiar de estrategia
-        presupuesto = float(request.form.get('Presupuesto', 0))
+        
+        try:
+            presupuesto_str = request.form.get('Presupuesto', '0').replace(',', '')
+            presupuesto = float(presupuesto_str)
+        except ValueError:
+            return jsonify({"error": "El valor del presupuesto no es válido."}), 400
 
         if not archivo or not algoritmo:
             return jsonify({"error": "Archivo o algoritmo no proporcionado"}), 400
@@ -37,7 +42,8 @@ def procesar_filtros():
             "nivel_socioeconomico": request.form.get('nivel_socioeconomico'),
             "discapacidad": request.form.get('discapacidad'),
             "ocupacion": request.form.get('ocupacion'),
-            "tipo_institucion": request.form.get('tipo_institucion')
+            "tipo_institucion": request.form.get('tipo_institucion'),
+            "monto_requerido": request.form.get('monto_requerido')
         }
 
         servicio = SeleccionService(estrategia=EstrategiaDinamica())
@@ -46,6 +52,7 @@ def procesar_filtros():
         return jsonify({
             "seleccionados": [p.to_dict() for p in resultado["seleccionados"]],
             "no_seleccionados": [p.to_dict() for p in resultado["no_seleccionados"]],
+            "presupuesto_invertido": f"{resultado['presupuesto_invertido']:,.2f}",
             "presupuesto_sobrante": f"{resultado['presupuesto_sobrante']:,.2f}"
         })
 

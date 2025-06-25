@@ -4,8 +4,14 @@
 
 $(document).ready(function () {
     inicializarDropzone();
-    // configurarPresupuestoConFormato();
+    configurarPresupuestoConFormato();
     configurarSliders();
+    const popoverTrigger = document.querySelector('#helpIcon');
+    new bootstrap.Popover(popoverTrigger, {
+        trigger: 'hover focus',
+        placement: 'bottom',
+        html: true
+    });
 });
 
 
@@ -36,6 +42,7 @@ function inicializarDropzone() {
     const fileInput = $('#fileInput').get(0);
     const fileNameContainer = $('#fileName').get(0);
     const fileNameText = $('#fileNameText').get(0);
+    const btnEliminarArchivo = $('#btnEliminarArchivo').get(0);
 
     dropzoneArea.addEventListener('click', () => fileInput.click());
 
@@ -52,20 +59,40 @@ function inicializarDropzone() {
         e.preventDefault();
         dropzoneArea.classList.remove('highlight');
         if (e.dataTransfer.files.length > 0) {
-            fileInput.files = e.dataTransfer.files;
-            mostrarNombreArchivo(fileInput.files[0]);
+            const archivo = e.dataTransfer.files[0];
+            if (validarArchivo(archivo)) {
+                fileInput.files = e.dataTransfer.files;
+                mostrarNombreArchivo(archivo);
+            }
         }
     });
 
     fileInput.addEventListener('change', () => {
         if (fileInput.files.length > 0) {
-            mostrarNombreArchivo(fileInput.files[0]);
+            const archivo = fileInput.files[0];
+            if (validarArchivo(archivo)) {
+                mostrarNombreArchivo(archivo);
+            } else {
+                fileInput.value = ''; // Limpiar input si no es válido
+                fileNameContainer.style.display = 'none';
+            }
         }
     });
+
+  btnEliminarArchivo.addEventListener('click', limpiarArchivo);
+
+    function limpiarArchivo() {
+        fileInput.value = '';
+        fileNameContainer.style.display = 'none';
+        btnEliminarArchivo.classList.add('d-none');
+        fileNameText.textContent = '';
+    }
 
     $('#processBtn').on('click', function () {
         const archivo = fileInput.files[0];
         const algoritmo = $('#algoritmo').val();
+        const presupuesto = $('#Presupuesto').val();
+        const monto_requerido = $('#monto_requerido').val();
 
         if (!archivo) {
             mostrarAlerta("warning", "¡Archivo requerido!", "Por favor, selecciona o arrastra un archivo Excel.");
@@ -77,16 +104,41 @@ function inicializarDropzone() {
             return;
         }
 
-        const extensionValida = archivo.name.endsWith('.xlsx');
-        const tamanoMaximo = 10 * 1024 * 1024; // 10MB
-
-        if (!extensionValida || archivo.size > tamanoMaximo) {
-            mostrarAlerta("warning", "Archivo no válido", "Debe ser un archivo .xlsx y pesar menos de 10MB.");
+        if (!presupuesto) {
+            mostrarAlerta("warning", "Presupuesto no establecido!", "Debes colocar el presupuesto antes de procesar la información.");
             return;
         }
 
+        if (!monto_requerido) {
+            mostrarAlerta("warning", "Monto requerido no seleccionado!", "Debes colocar el tipo de monto requerido que se usará para la priorización.");
+            return;
+        }
+
+
         enviarFormularioConFiltros(archivo, algoritmo);
     });
+
+    /**
+     * Valida la extensión y tamaño del archivo.
+     * @param {File} archivo
+     * @returns {boolean} true si es válido, false si no lo es
+     */
+    function validarArchivo(archivo) {
+        const extensionValida = archivo.name.endsWith('.xlsx');
+        const tamanoMaximo = 10 * 1024 * 1024; // 10MB
+
+        if (!extensionValida) {
+            mostrarAlerta("warning", "Archivo no válido", "Debe ser un archivo con extensión: .xlsx");
+            return false;
+        }
+
+        if (archivo.size > tamanoMaximo) {
+            mostrarAlerta("warning", "Archivo demasiado grande", "El archivo debe pesar menos de 10MB.");
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * Muestra el nombre del archivo seleccionado debajo del dropzone.
@@ -95,8 +147,10 @@ function inicializarDropzone() {
     function mostrarNombreArchivo(archivo) {
         fileNameContainer.style.display = 'block';
         fileNameText.textContent = archivo.name;
+        btnEliminarArchivo.classList.remove('d-none');
     }
 }
+
 
 /**
  * Envia los datos al backend.
@@ -111,82 +165,126 @@ function enviarFormularioConFiltros(archivoExcel, algoritmo) {
     formData.append('archivo', archivoExcel);
     formData.append('algoritmo', algoritmo);
 
+    // Si las secciones están visibles, ocultarlas
+    const seccionesVisibles = Array.from(document.querySelectorAll('.modern-card'))
+        .some(div => !div.hasAttribute('hidden'));
+    
+    if (seccionesVisibles) {
+        ocultarSeccionesResultado();
+    }
+
+    $('#spinnerCarga').show();
+
     fetch('/procesar-filtros', {
         method: 'POST',
         body: formData
     })
     .then(res => res.json())
     .then(data => {
-        console.log('Datos recibidos:', data);
+        $('#spinnerCarga').hide();
 
         if (data.error) {
             mostrarAlerta("error", "Error", data.error);
             return;
         }
 
-        // Mostrar secciones
-        document.querySelectorAll('.modern-card').forEach(div => div.removeAttribute('hidden'));
-
-        // Llenar tablas
         llenarTabla('tablaPostulantes', data.seleccionados);
         llenarTabla('tablaNoPostulantes', data.no_seleccionados);
+        mostrarSeccionesResultado();
 
-        // Mostrar presupuesto
+        document.getElementById('PresupuestoInvertido').value = data.presupuesto_invertido;
         document.getElementById('PresupuestoSobrante').value = data.presupuesto_sobrante;
     })
     .catch(error => {
+        $('#spinnerCarga').hide();
         mostrarAlerta("error", "Error en el servidor", "No se pudo procesar la selección. Intenta más tarde.");
         console.error(error);
     });
 }
 
 
+function ocultarSeccionesResultado() {
+    document.querySelectorAll('.cardDinamico').forEach(div => div.setAttribute('hidden', true));
+}
+
+function mostrarSeccionesResultado() {
+    document.querySelectorAll('.cardDinamico').forEach(div => div.removeAttribute('hidden'));
+}
+
+
+
 /**
  * Crea una tabla de datos con DataTables.
  */
-
 function llenarTabla(idTabla, lista) {
     const tabla = $(`#${idTabla}`);
-
-    // Destruir instancia previa si existe
     if ($.fn.DataTable.isDataTable(tabla)) {
         tabla.DataTable().clear().destroy();
     }
 
-    // Limpiar encabezado y cuerpo
     const thead = tabla.find('thead');
     const tbody = tabla.find('tbody');
     thead.empty();
     tbody.empty();
 
     if (lista.length === 0) {
-        tbody.append('<tr><td colspan="10" class="text-center text-muted">Sin resultados</td></tr>');
+        tbody.append('<tr><td colspan="7" class="text-center text-muted">Sin resultados</td></tr>');
         return;
     }
 
-    // Crear encabezados desde la primera fila
-    const columnas = Object.keys(lista[0]);
-    const encabezadoHTML = columnas.map(col => `<th>${col.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</th>`).join('');
+    // Columnas deseadas, incluyendo la ocupación con badge
+    const columnas = [
+        { key: 'prioridad', label: 'Prioridad (1-8)' },
+        { key: 'nombre', label: 'Nombre' },
+        { key: 'genero', label: 'Género' },
+        { key: 'nivel_socioeconomico', label: 'Nivel Socioeconómico' },
+        { key: 'ocupacion', label: 'Ocupación' },
+        { key: 'indice', label: 'Índice' },
+        { key: 'monto_requerido', label: 'Monto Requerido' }        
+    ];
+
+    // Función para aplicar clase según tipo de ocupación
+    function obtenerBadgePorOcupacion(tipo) {
+        switch ((tipo || '').toUpperCase()) {
+            case 'ESTUDIANTE': return '<span class="badge badge-gradient-estudiante fs-6">Estudiante</span>';
+            case 'EMPLEADO': return '<span class="badge badge-gradient-empleado fs-6">Empleado</span>';
+            case 'DESEMPLEADO': return '<span class="badge badge-gradient-desempleado fs-6">Desempleado</span>';
+            case 'TRABAJO LIBRE': return '<span class="badge badge-gradient-trabajo-libre fs-6">Trabajo Libre</span>';
+            default: return tipo || '-';
+        }
+    }
+
+    // Encabezados
+    const encabezadoHTML = columnas.map(c => `<th>${c.label}</th>`).join('');
     thead.append(`<tr>${encabezadoHTML}</tr>`);
 
-    // Crear filas del cuerpo
+    // Filas
     lista.forEach(item => {
-        const filaHTML = columnas.map(col => `<td>${item[col]}</td>`).join('');
+        const filaHTML = columnas.map(col => {
+            let valor = item[col.key];
+
+            if (col.key === 'nombre') {
+                valor = valor.toUpperCase();
+            }
+
+            if (col.key === 'ocupacion') {
+                valor = obtenerBadgePorOcupacion(valor);
+            }
+
+            return `<td>${valor}</td>`;
+        }).join('');
         tbody.append(`<tr>${filaHTML}</tr>`);
     });
 
-    // Inicializar DataTable
     tabla.DataTable({
         responsive: true,
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json'
+            url: "https://cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json"
         },
-        pageLength: 10,
-        lengthChange: false,
-        autoWidth: false,
         order: []
     });
 }
+
 
 
 /**

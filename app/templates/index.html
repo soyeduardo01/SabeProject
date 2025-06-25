@@ -46,7 +46,7 @@
 
     <!-- Algoritmo -->
     <div class="modern-card gradient-card fade-in mb-5">
-        <h5 class="mb-4"><i class="fas fa-project-diagram me-3"></i>Algoritmo de Selección</h5>
+        <h5 class="mb-4 obligatorio"><i class="fas fa-project-diagram me-3"></i>Algoritmo de Selección</h5>
         <select class="form-select mb-3" id="algoritmo" name="algoritmo">
             <option value="">Selecciona un algoritmo</option>
             <option value="dynamic">PROGRAMACIÓN DINÁMICA</option>
@@ -74,7 +74,7 @@
 
     <!-- File Upload -->
     <div class="modern-card fade-in mb-5">
-        <h5 class="mb-4"><i class="fas fa-cloud-upload-alt me-3"></i>Subir Archivo de Postulantes</h5>
+        <h5 class="mb-4 obligatorio"><i class="fas fa-cloud-upload-alt me-3"></i>Subir Archivo de Postulantes</h5>
 
         <div class="dropzone-wrapper mt-3" id="fileUploadArea">
             <div class="dropzone-icon">
@@ -88,10 +88,15 @@
         </div>
 
         <div id="fileName" class="mt-5" style="display: none;">
-            <div class="alert alert-success d-flex align-items-center">
-                <i class="fas fa-check-circle me-2"></i>
-                <span>Archivo cargado: </span>
-                <strong id="fileNameText" class="ms-1"></strong>
+            <div class="alert alert-success d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <span>Archivo cargado: </span>
+                    <strong id="fileNameText" class="ms-1"></strong>
+                </div>
+                <button id="btnEliminarArchivo" class="btn btn-sm btn-danger ms-3 d-none" type="button" title="Eliminar archivo">
+                    <i class="fas fa-trash-alt fs-5"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -117,7 +122,7 @@
     </div>
 
 
-    <div class="modern-card fade-in mb-5" hidden>
+    <div class="modern-card fade-in mb-5 cardDinamico" hidden>
         <h5 class="mb-4">
             <i class="fas fa-users me-3"></i>Postulantes Seleccionados
         </h5>   
@@ -130,9 +135,9 @@
         </div>
     </div>
 
-    <div class="modern-card fade-in mb-5" hidden>
+    <div class="modern-card fade-in mb-5 cardDinamico" hidden>
         <h5 class="mb-4">
-            <i class="fas fa-users me-3"></i>Postulantes No Seleccionados
+           <i class="fas fa-user-slash me-3"></i>Postulantes No Seleccionados
         </h5>   
         <div class="table-responsive">
             <table id="tablaNoPostulantes" class="table table-bordered table-hover table-striped align-middle w-100">
@@ -144,17 +149,34 @@
     </div>
 
          <!-- Presupuesto -->
-    <div class="modern-card gradient-card fade-in mb-5" hidden>
-        <h5 class="mb-4"><i class="fas fa-project-diagram me-3"></i>Presupuesto Sobrante</h5>
-        <div class="col-md-12 mb-3">
-            <label class="form-label fw-bold">Cantidad</label>
-            <div class="input-group">
-                <span class="input-group-text">RD$</span>
-                <input type="text" class="form-control" name="PresupuestoSobrante" id="PresupuestoSobrante" placeholder="0.00">
+    <div class="modern-card gradient-card fade-in mb-5 cardDinamico" hidden>
+        <h5 class="mb-4"><i class="fas fa-hand-holding-usd me-3"></i></i>Detalle del Presupuesto Proporcionado</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Presupuesto Invertido</label>
+                <div class="input-group">
+                    <span class="input-group-text">RD$</span>
+                    <input type="text" class="form-control" name="PresupuestoInvertido" id="PresupuestoInvertido" placeholder="0.00">
+                </div>
             </div>
-        </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Presupuesto Sobrante</label>
+                <div class="input-group">
+                    <span class="input-group-text">RD$</span>
+                    <input type="text" class="form-control" name="PresupuestoSobrante" id="PresupuestoSobrante" placeholder="0.00">
+                </div>
+            </div>
+        </div>        
     </div>
-     
+
+    <!-- Cargador -->
+     <div id="spinnerCarga" class="text-center my-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2">Procesando información...</p>
+    </div>
+
 
 </div>
 

@@ -37,4 +37,22 @@ class SeleccionService:
 
     def seleccionar_postulantes(self, postulantes: List[Postulante], filtros: dict, presupuesto: float) -> dict:
         postulantes_filtrados = self.aplicar_filtros(postulantes, filtros)
-        return self.estrategia.seleccionar_postulantes(postulantes_filtrados, presupuesto)
+
+        # Orden dinámico según monto requerido
+        orden_monto = (filtros.get("monto_requerido") or "menor").lower()
+
+        if orden_monto == "mayor":
+            postulantes_ordenados = sorted(
+                postulantes_filtrados,
+                key=lambda p: (-p.prioridad, -p.monto_requerido)
+            )
+        else:
+            postulantes_ordenados = sorted(
+                postulantes_filtrados,
+                key=lambda p: (-p.prioridad, p.monto_requerido)
+            )
+
+        return self.estrategia.seleccionar_postulantes(postulantes_ordenados, presupuesto)
+
+
+

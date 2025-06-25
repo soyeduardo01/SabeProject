@@ -1,49 +1,47 @@
-# app/services/estrategia_dinamica.py
-
 from app.interfaces.estrategia_interface import IEstrategiaSeleccion
 from app.models.postulante_model import Postulante
 from typing import List
 
 class EstrategiaDinamica(IEstrategiaSeleccion):
-    """
-    Implementación de una estrategia de selección usando Programación Dinámica (tipo mochila 0/1).
-    Prioriza postulantes con mayor prioridad sin exceder el presupuesto.
-    """
-
     def seleccionar_postulantes(self, postulantes: List[Postulante], presupuesto: float) -> dict:
-        n = len(postulantes)
-        presupuesto_entero = int(presupuesto)
+        granularidad = 5  # centavos por unidad (5 = precisión de RD$0.05)
 
-        pesos = [int(p.monto_requerido) for p in postulantes]
+        presupuesto_unidades = int(round(presupuesto * 100 / granularidad))
+        pesos = [int(round(p.monto_requerido * 100 / granularidad)) for p in postulantes]
         valores = [p.prioridad for p in postulantes]
+        n = len(postulantes)
 
-        dp = [[0] * (presupuesto_entero + 1) for _ in range(n + 1)]
+        dp = [0] * (presupuesto_unidades + 1)
+        keep = [[False] * (presupuesto_unidades + 1) for _ in range(n)]
 
-        # Construcción de la tabla de DP
-        for i in range(1, n + 1):
-            for w in range(presupuesto_entero + 1):
-                if pesos[i - 1] <= w:
-                    dp[i][w] = max(
-                        valores[i - 1] + dp[i - 1][w - pesos[i - 1]],
-                        dp[i - 1][w]
-                    )
-                else:
-                    dp[i][w] = dp[i - 1][w]
+        for i in range(n):
+            peso = pesos[i]
+            valor = valores[i]
+            for w in range(presupuesto_unidades, peso - 1, -1):
+                if dp[w - peso] + valor > dp[w]:
+                    dp[w] = dp[w - peso] + valor
+                    keep[i][w] = True
 
-        # Reconstrucción del subconjunto óptimo
-        w = presupuesto_entero
+        # Reconstrucción
+        w = presupuesto_unidades
         seleccionados = []
         no_seleccionados = []
 
-        for i in range(n, 0, -1):
-            if dp[i][w] != dp[i - 1][w]:
-                seleccionados.append(postulantes[i - 1])
-                w -= pesos[i - 1]
+        for i in range(n - 1, -1, -1):
+            if keep[i][w]:
+                seleccionados.append(postulantes[i])
+                w -= pesos[i]
             else:
-                no_seleccionados.append(postulantes[i - 1])
+                no_seleccionados.append(postulantes[i])
+
+        # Convertimos de vuelta a pesos con centavos
+        presupuesto_sobrante = (w * granularidad) / 100.0
+        presupuesto_invertido = presupuesto - presupuesto_sobrante
+
 
         return {
             "seleccionados": seleccionados[::-1],
             "no_seleccionados": no_seleccionados[::-1],
-            "presupuesto_sobrante": w
+            "presupuesto_invertido": presupuesto_invertido,
+            "presupuesto_sobrante": presupuesto_sobrante
         }
