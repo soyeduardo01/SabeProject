@@ -12,6 +12,10 @@ $(document).ready(function () {
         placement: 'bottom',
         html: true
     });
+     $('#btnGenerarInforme, #btnGenerarExcel').hide();
+     $('#btnGenerarInforme').on('click', function () {
+        generarInformePDF();
+    });
 });
 
 
@@ -191,6 +195,10 @@ function enviarFormularioConFiltros(archivoExcel, algoritmo) {
         llenarTabla('tablaPostulantes', data.seleccionados);
         llenarTabla('tablaNoPostulantes', data.no_seleccionados);
         mostrarSeccionesResultado();
+
+          
+        $('#btnGenerarInforme, #btnGenerarExcel').fadeIn();
+
 
         document.getElementById('PresupuestoInvertido').value = data.presupuesto_invertido;
         document.getElementById('PresupuestoSobrante').value = data.presupuesto_sobrante;
@@ -372,4 +380,73 @@ function configurarSliders() {
         inputIndiceMin.val(values[0]);
         inputIndiceMax.val(values[1]);
     });
+}
+
+
+
+/**
+ * Envía los filtros y las tablas de seleccionados/no seleccionados al backend
+ * para generar un PDF y forzar su descarga.
+ */
+function generarInformePDF() {
+    $('#btnGenerarInforme').prop('disabled', true);
+    $('#spinnerPdf').show();
+
+    const form = $('#formFiltros')[0];
+    const formData = new FormData(form);
+
+    // Obtener y limpiar los valores de presupuesto invertido y sobrante
+    let inversion = parseFloat($('#PresupuestoInvertido').val().replace(/[^0-9.]/g, '')) || 0;
+    let restante = parseFloat($('#PresupuestoSobrante').val().replace(/[^0-9.]/g, '')) || 0;
+
+    // Agregar datos al FormData
+    formData.append('PresupuestoInvertido', inversion);
+    formData.append('PresupuestoSobrante', restante);
+
+    // Capturar datos de ambas tablas
+    const datosSeleccionados = $('#tablaPostulantes').DataTable().rows().data().toArray();
+    const datosNoSeleccionados = $('#tablaNoPostulantes').DataTable().rows().data().toArray();
+
+    // Convertir a JSON y agregar al FormData
+    formData.append('SeleccionadosJSON', JSON.stringify(datosSeleccionados));
+    formData.append('NoSeleccionadosJSON', JSON.stringify(datosNoSeleccionados));
+
+    // Enviar al backend
+    $.ajax({
+        url: '/generar_informe',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        xhrFields: {
+            responseType: 'blob' // Esperamos un archivo
+        },
+        success: function (blob) {
+             $('#spinnerPdf').hide();
+            $('#btnGenerarInforme').prop('disabled', false);
+            descargarArchivo(blob, 'informe_asignacion_becas_sabe.pdf');
+        },
+        error: function (xhr, status, error) {
+            $('#spinnerPdf').hide();
+            $('#btnGenerarInforme').prop('disabled', false);
+            mostrarAlerta('error', 'Error al generar el informe', 'Ocurrió un problema al generar el archivo PDF.');
+            console.error('Error:', error);
+        }
+    });
+}
+
+/**
+ * Descarga el archivo blob generado.
+ * @param {Blob} blob - Contenido del archivo.
+ * @param {string} nombreArchivo - Nombre del archivo a descargar.
+ */
+function descargarArchivo(blob, nombreArchivo) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nombreArchivo;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
 }

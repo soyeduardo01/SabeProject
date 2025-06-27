@@ -149,133 +149,11 @@ input[readonly]:focus {
     border: none; 
 }
 
-.selectize-input {
-    width: 100% !important;
-    background: #fff !important;
-    border: 1px solid #dadfe5;
-    border-radius: 0.375rem;
-    padding: 0.50rem 0.75rem;
-    box-shadow: none;
-    display: flex;
-    align-items: center;
-}
-
-/* Para el dropdown desplegado */
-.selectize-dropdown.form-control {
-    border-radius: 0.375rem; 
-    border: 1px solid #ced4da; 
-    background-color: #fff; 
-}
-
-/* Estilo para las opciones dentro del dropdown */
-.selectize-dropdown .option {
-    padding: 0.375rem 0.75rem; 
-    cursor: pointer;
-}
 
 
-/* Estilo para el icono de basura del dropdown */
-.clear{
-    width: 35px !important;
-    padding-right: 15px !important;
-    color: darkred !important;
-}
-
-.espacio-en-blanco {
-    width: 24px;
-    height: 24px;
-}
-
-#labelTieneConvenio {
-    font-size: 14px !important;
-}
-
-/* Estilos para las nav-tabs */
-
-.nav-tabs .nav-link {
-    background-image: linear-gradient(to right, #FDC601 0%, #FDE401 51%, #FDC601 100%) !important;
-    background-size: 200% auto !important;
-    background-position: left center !important;
-    border-color: transparent !important;
-    color: #7f3c0d !important;
-    transition: background-position 0.5s ease-in-out !important;
-}
-
-    .nav-tabs .nav-link:hover {
-        background-position: right center !important;
-        border-color: transparent !important;
-        color: #7f3c0d !important;
-        text-decoration: none !important;
-    }
 
 
-.nav-tabs .nav-link:active {
-    background-image: linear-gradient(to right, #FF7B00 0%,#ffb007 51%, #FF7B00 100%) !important;
-    background-size: 200% auto !important;
-    background-position: left center !important;
-    border-color: transparent !important;
-    color: white !important;
-    transition: background-position 0.5s ease-in-out !important;
-}
 
-    .nav-tabs .nav-link:active:hover {
-        background-position: right center !important;
-        border-color: transparent !important;
-        color: white !important;
-        text-decoration: none !important;
-    }
-
-.nav-tabs .nav-link {
-    background-image: linear-gradient(to right, #FDC601 0%, #FDE401 51%, #FDC601 100%) !important;
-    background-size: 200% auto !important;
-    background-position: left center !important;
-    border-color: transparent !important;
-    color: #7f3c0d !important;
-    transition: background-position 0.5s ease-in-out !important;
-}
-
-.nav-tabs .nav-link:hover {
-    background-position: right center !important;
-    border-color: transparent !important;
-    color: #7f3c0d !important;
-    text-decoration: none !important;
-}
-
-.nav-tabs .nav-link.active {
-    background-image: linear-gradient(to right, #FF7B00 0%,#ffb007 51%, #FF7B00 100%) !important;
-    background-size: 200% auto !important;
-    background-position: left center !important;
-    border-color: transparent !important;
-    color: white !important;
-    transition: background-position 0.5s ease-in-out !important;
-}
-
-   
-.nav-tabs .nav-link.active:hover {
-    background-position: right center !important;
-    color: white !important;
-    text-decoration: none !important;
-}
-
-.check-identificacion {
-    padding: 2px !important;
-}
-
-@media (max-width: 600px) {
-    .btn-convenio {
-        font-size: 0.75em;
-    }
-}
-
-@media (min-width:1200px) {
-    .modal-xl {
-        --bs-modal-width: 1280px !important;
-    }
-
-    .modal-xl.modal-xxl-personalizado {
-        --bs-modal-width: 1680px !important;
-    }
-}
 
 .obligatorio::after {
     content: " *";
@@ -341,3 +219,10 @@ input[readonly]:focus {
     background: linear-gradient(45deg, #00f7b9, #027155);
     color: #004030;
 }
+
+.starts-pdf{
+    width:8%;
+    margin-right: 0.7rem;
+}
+
+
