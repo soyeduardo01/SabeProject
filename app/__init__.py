@@ -9,7 +9,7 @@ def create_app():
     load_dotenv()  # Carga las variables de entorno desde .env
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'clave-secreta-sabe'
-    app.config['API_KEY'] = os.getenv('API_KEY')
+    app.config['GOOGLE_API_KEY'] = os.getenv('GOOGLE_API_KEY')
 
     # Blueprint
     app.register_blueprint(home_bp)
