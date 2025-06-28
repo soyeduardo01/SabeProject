@@ -69,5 +69,5 @@ Eduardo Vicente
 INTEC · ITLA
 
 Diego R.  
-[LinkedIn](https://www.linkedin.com/in/)  
+[LinkedIn](https://www.linkedin.com/in/diego-manuel-rodriguez-arredondo-51b6a1290)  
 INTEC · ITLA

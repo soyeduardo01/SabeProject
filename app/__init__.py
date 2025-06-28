@@ -1,11 +1,15 @@
 from flask import Flask
 from datetime import datetime
+from dotenv import load_dotenv
 from app.routes.home_routes import home_bp
 from app.routes.seleccion_routes import seleccion_bp
+import os
 
 def create_app():
+    load_dotenv()  # Carga las variables de entorno desde .env
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'clave-secreta-sabe'
+    app.config['API_KEY'] = os.getenv('API_KEY')
 
     # Blueprint
     app.register_blueprint(home_bp)

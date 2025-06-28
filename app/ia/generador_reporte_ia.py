@@ -1,7 +1,16 @@
 import google.generativeai as genai
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
-genai.configure(api_key="Nuestra API KEY")
+# Cargar las variables de entorno desde el archivo .env
+load_dotenv()
+
+# Obtener la clave de API desde la variable de entorno
+clave = os.getenv('API_KEY')
+
+# Configurar la librería de Gemini (Generative AI)
+genai.configure(api_key=clave)
 
 def generar_texto_reporte(seleccionados, no_seleccionados, presupuesto, restante, inversion, filtros):
     total_postulantes = len(seleccionados) + len(no_seleccionados)
