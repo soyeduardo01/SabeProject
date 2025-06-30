@@ -109,17 +109,17 @@
     <!-- Postulantes Seleccionados -->
      
     <div class="row justify-content-end mb-5">
-        <div class="col-12 col-sm-auto mb-2 mb-sm-0 text-end">
+        <div class="col-12 col-sm-auto text-end  mb-3">
             <button class="btn btn-primary w-100" id="processBtn">
                 <i class="fas fa-cogs me-2"></i>PROCESAR SELECCIÓN
             </button>
         </div>
-        <div class="col-12 col-sm-auto text-end mb-5">
-            <button class="btn btn-success " id="btnGenerarExcel">
+        <div class="col-12 col-sm-auto text-end mb-3">
+            <button class="btn btn-success w-100" id="btnGenerarExcel">
                 <i class="fas fa-download me-2"></i>DESCARGAR EXCEL
             </button>
         </div>
-        <div class="col-12 col-sm-auto text-end mb-5">
+        <div class="col-12 col-sm-auto text-end mb-3">
             <button type="button" class="btn btn-danger w-100" id="btnGenerarInforme">
                 <img src="{{ url_for('static', filename='img/stars.png') }}" alt="GENERAR PDF CON IA" class="starts-pdf">
                 Generar Informe PDF con IA
@@ -154,6 +154,7 @@
             </table>
         </div>
     </div>
+
 
          <!-- Presupuesto -->
     <div class="modern-card gradient-card fade-in mb-5 cardDinamico" hidden>

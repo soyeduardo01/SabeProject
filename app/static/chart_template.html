@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráficos SABE</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      padding: 20px;
+      background: #fff;
+    }
+    .grafico {
+      margin-bottom: 70px;
+    }
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 1200px;
+      max-height: 700px;
+      display: block;
+      margin: 0 auto;
+    }
+    .grafico-pie canvas {
+      max-width: 600px;
+      height: 400px !important;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</head>
+<body>
+
+  <div class="grafico"><canvas id="graficoProvincia"></canvas></div>
+  <div class="grafico grafico-pie"><canvas id="graficoGenero"></canvas></div>
+  <div class="grafico"><canvas id="graficoNivelTipo"></canvas></div>
+  <div class="grafico"><canvas id="graficoEdad"></canvas></div>
+  <div class="grafico"><canvas id="graficoIndice"></canvas></div>
+  <div class="grafico grafico-pie"><canvas id="graficoPresupuesto"></canvas></div>
+
+  <script>
+    window.renderCharts = function(datos) {
+      function crearGrafico(idCanvas, tipo, labels, datos, opcionesExtra = {}, tieneLeyenda = true) {
+        const ctx = document.getElementById(idCanvas).getContext('2d');
+
+        const pluginsConfig = {
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            color: '#000',
+            font: { weight: 'bold' },
+            formatter: val => val
+          }
+        };
+
+        pluginsConfig.legend = tieneLeyenda ? { position: 'bottom' } : { display: false };
+
+        return new Chart(ctx, {
+          type: tipo,
+          data: {
+            labels: labels,
+            datasets: [{
+              label: ' ', // no vacío para evitar leyendas "undefined"
+              data: datos,
+              backgroundColor: [
+                '#16a085', '#27ae60', '#2980b9', '#8e44ad',
+                '#e67e22', '#e74c3c', '#2c3e50', '#f39c12'
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: pluginsConfig,
+            ...opcionesExtra
+          },
+          plugins: [ChartDataLabels]
+        });
+      }
+
+      crearGrafico("graficoProvincia", "bar",
+        Object.keys(datos.provincia), Object.values(datos.provincia), {}, false);
+
+      crearGrafico("graficoGenero", "pie",
+        Object.keys(datos.genero), Object.values(datos.genero), {}, true);
+
+      const tipos = Object.keys(datos.nivel_tipo);
+      const niveles = [...new Set(tipos.flatMap(t => Object.keys(datos.nivel_tipo[t])))];
+
+      const datasets = niveles.map(nivel => ({
+        label: nivel,
+        data: tipos.map(tipo => datos.nivel_tipo[tipo][nivel] || 0),
+        backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16)
+      }));
+
+      new Chart(document.getElementById("graficoNivelTipo").getContext("2d"), {
+        type: "bar",
+        data: {
+          labels: tipos,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' },
+            datalabels: {
+              anchor: 'end',
+              align: 'top',
+              color: '#000',
+              font: { weight: 'bold' },
+              formatter: val => val
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+
+      crearGrafico("graficoEdad", "bar",
+        Object.keys(datos.edad), Object.values(datos.edad), {}, false);
+
+      crearGrafico("graficoIndice", "bar",
+        Object.keys(datos.indice), Object.values(datos.indice), {}, false);
+
+      const invertido = datos.presupuesto["Monto invertido"];
+      const sobrante = datos.presupuesto["Presupuesto sobrante"];
+
+      new Chart(document.getElementById("graficoPresupuesto"), {
+        type: "pie",
+        data: {
+          labels: ["Monto invertido", "Presupuesto sobrante"],
+          datasets: [{
+            data: [invertido, sobrante],
+            backgroundColor: ["#2ecc71", "#3498db"]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' },
+            datalabels: {
+              color: '#fff',
+              font: { weight: 'bold' },
+              formatter: val => val.toLocaleString()
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+
+      setTimeout(() => {
+        window.renderComplete = true;
+      }, 1500);
+    };
+  </script>
+</body>
+</html>

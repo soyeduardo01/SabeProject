@@ -18,6 +18,21 @@ $(document).ready(function () {
     });
 });
 
+// Columnas para las tablas que muestran los datos de los postulantes.
+const columnasPostulante = [
+    { key: 'prioridad', label: 'Prioridad (1-8)' },
+    { key: 'nombre', label: 'Nombre' },
+    { key: 'genero', label: 'Género' },
+    { key: 'edad', label: 'Edad' },
+    { key: 'provincia', label: 'Provincia' },
+    { key: 'indice', label: 'Índice' },
+    { key: 'nivel_socioeconomico', label: 'Nivel Socioeconómico' },
+    { key: 'ocupacion', label: 'Ocupación' },
+    { key: 'discapacidad', label: '¿Tiene Discapacidad?' },
+    { key: 'tipo_institucion', label: 'Tipo de Institución de Procedencia' },
+    { key: 'monto_requerido', label: 'Monto Requerido' }
+];
+
 
 // =============================
 // FUNCIONES GENERALES
@@ -163,6 +178,7 @@ function inicializarDropzone() {
  */
 
 function enviarFormularioConFiltros(archivoExcel, algoritmo) {
+    $('#processBtn').prop('disabled', true);
     const form = $('#formFiltros')[0];
     const formData = new FormData(form);
 
@@ -186,6 +202,7 @@ function enviarFormularioConFiltros(archivoExcel, algoritmo) {
     .then(res => res.json())
     .then(data => {
         $('#spinnerCarga').hide();
+         $('#processBtn').prop('disabled', false);
 
         if (data.error) {
             mostrarAlerta("error", "Error", data.error);
@@ -195,13 +212,11 @@ function enviarFormularioConFiltros(archivoExcel, algoritmo) {
         llenarTabla('tablaPostulantes', data.seleccionados);
         llenarTabla('tablaNoPostulantes', data.no_seleccionados);
         mostrarSeccionesResultado();
-
           
         $('#btnGenerarInforme, #btnGenerarExcel').fadeIn();
+        $('#PresupuestoInvertido').val(data.presupuesto_invertido).prop('readonly', true);
+        $('#PresupuestoSobrante').val(data.presupuesto_sobrante).prop('readonly', true);
 
-
-        document.getElementById('PresupuestoInvertido').value = data.presupuesto_invertido;
-        document.getElementById('PresupuestoSobrante').value = data.presupuesto_sobrante;
     })
     .catch(error => {
         $('#spinnerCarga').hide();
@@ -241,15 +256,7 @@ function llenarTabla(idTabla, lista) {
     }
 
     // Columnas deseadas, incluyendo la ocupación con badge
-    const columnas = [
-        { key: 'prioridad', label: 'Prioridad (1-8)' },
-        { key: 'nombre', label: 'Nombre' },
-        { key: 'genero', label: 'Género' },
-        { key: 'nivel_socioeconomico', label: 'Nivel Socioeconómico' },
-        { key: 'ocupacion', label: 'Ocupación' },
-        { key: 'indice', label: 'Índice' },
-        { key: 'monto_requerido', label: 'Monto Requerido' }        
-    ];
+    const columnas = columnasPostulante;
 
     // Función para aplicar clase según tipo de ocupación
     function obtenerBadgePorOcupacion(tipo) {
@@ -388,42 +395,52 @@ function configurarSliders() {
  * Envía los filtros y las tablas de seleccionados/no seleccionados al backend
  * para generar un PDF y forzar su descarga.
  */
+/**
+ * Envía los filtros y datos de las tablas al backend para generar un informe PDF.
+ */
 function generarInformePDF() {
+    $('#processBtn').prop('disabled', true);
     $('#btnGenerarInforme').prop('disabled', true);
+    $('#btnGenerarExcel').prop('disabled', true);
     $('#spinnerPdf').show();
 
     const form = $('#formFiltros')[0];
     const formData = new FormData(form);
 
-    // Obtener y limpiar los valores de presupuesto invertido y sobrante
-    let inversion = parseFloat($('#PresupuestoInvertido').val().replace(/[^0-9.]/g, '')) || 0;
-    let restante = parseFloat($('#PresupuestoSobrante').val().replace(/[^0-9.]/g, '')) || 0;
+    // Convertir y limpiar presupuesto
+    const inversion = parseFloat($('#PresupuestoInvertido').val().replace(/[^0-9.]/g, '')) || 0;
+    const restante  = parseFloat($('#PresupuestoSobrante').val().replace(/[^0-9.]/g, '')) || 0;
 
-    // Agregar datos al FormData
     formData.append('PresupuestoInvertido', inversion);
     formData.append('PresupuestoSobrante', restante);
 
-    // Capturar datos de ambas tablas
-    const datosSeleccionados = $('#tablaPostulantes').DataTable().rows().data().toArray();
-    const datosNoSeleccionados = $('#tablaNoPostulantes').DataTable().rows().data().toArray();
+     const claves = columnasPostulante.map(C => C.key);
 
-    // Convertir a JSON y agregar al FormData
-    formData.append('SeleccionadosJSON', JSON.stringify(datosSeleccionados));
-    formData.append('NoSeleccionadosJSON', JSON.stringify(datosNoSeleccionados));
+    // Capturar y mapear datos limpios de ambas tablas
+    const seleccionados     = mapearPostulantesDesdeTabla('tablaPostulantes', claves);
+    const no_seleccionados  = mapearPostulantesDesdeTabla('tablaNoPostulantes', claves);
 
-    // Enviar al backend
+    console.log(seleccionados);
+    console.log("Hola:");
+    console.log("SeleccionadosJSON:", JSON.stringify(seleccionados, null, 2));
+
+    // Convertir a JSON para el backend
+    formData.append('SeleccionadosJSON', JSON.stringify(seleccionados));
+    formData.append('NoSeleccionadosJSON', JSON.stringify(no_seleccionados));
+
+    // Enviar al servidor
     $.ajax({
         url: '/generar_informe',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false,
-        xhrFields: {
-            responseType: 'blob' // Esperamos un archivo
-        },
+        xhrFields: { responseType: 'blob' },
         success: function (blob) {
-             $('#spinnerPdf').hide();
+            $('#spinnerPdf').hide();
+            $('#processBtn').prop('disabled', false);
             $('#btnGenerarInforme').prop('disabled', false);
+            $('#btnGenerarExcel').prop('disabled', false);
             descargarArchivo(blob, 'informe_asignacion_becas_sabe.pdf');
         },
         error: function (xhr, status, error) {
@@ -434,6 +451,49 @@ function generarInformePDF() {
         }
     });
 }
+
+
+/**
+ * Limpia etiquetas HTML de un texto, útil para celdas que contienen <span>, <b>, etc.
+ * @param {string} texto - Texto potencialmente con HTML.
+ * @returns {string} - Texto plano sin etiquetas HTML.
+ */
+function cleanHTML(texto) {
+    return $("<div>").html(texto).text().trim();
+}
+
+
+/**
+ * Mapea los datos de una tabla construida con `llenarTabla()` usando los keys definidos.
+ * @param {string} idTabla - ID de la tabla HTML.
+ * @param {string[]} keys - Orden de claves usado para generar las columnas.
+ * @returns {Object[]} - Lista de objetos Postulante limpios y listos.
+ */
+function mapearPostulantesDesdeTabla(idTabla, keys) {
+    const rows = $(`#${idTabla}`).DataTable().rows().data().toArray();
+
+    return rows.map(fila => {
+        const obj = {};
+
+        keys.forEach((key, i) => {
+            let valor = cleanHTML(fila[i]);
+
+            if (key === "monto_requerido") {
+                valor = parseFloat(valor.replace(/[^\d.]/g, "")) || 0;
+            } else if (key === "indice") {
+                valor = parseFloat(valor) || 0;
+            } else if (key === "edad") {
+                valor = parseInt(valor) || 0;
+            }
+
+            obj[key] = valor;
+        });
+
+        return obj;
+    });
+}
+
+
 
 /**
  * Descarga el archivo blob generado.
