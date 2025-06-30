@@ -1,6 +1,7 @@
 # app/routes/seleccion_routes.py
 
 from flask import Blueprint,  session, send_file, request, make_response, jsonify
+from app.models.postulante_model import Postulante
 from app.controllers import seleccion_controller
 from app.services.generador_reporte_service import GeneradorReporteService
 import json
@@ -19,9 +20,10 @@ def generar_informe():
     try:
         # Obtener datos del formulario
         seleccionados_json = request.form.get('SeleccionadosJSON', '[]')
-        no_seleccionados_json = request.form.get('NoSeleccionadosJSON', '[]')
-        seleccionados = json.loads(seleccionados_json)
-        no_seleccionados = json.loads(no_seleccionados_json)
+        no_seleccionados_json = request.form.get('NoSeleccionadosJSON', '[]')    
+
+        seleccionados = [Postulante(**p) for p in json.loads(seleccionados_json)]
+        no_seleccionados = [Postulante(**p) for p in json.loads(no_seleccionados_json)]
 
         try:
             presupuesto_str = request.form.get('Presupuesto', '0').replace(',', '')
@@ -46,6 +48,8 @@ def generar_informe():
             k: v for k, v in request.form.items()
             if k not in ['SeleccionadosJSON', 'NoSeleccionadosJSON', 'Presupuesto', 'PresupuestoSobrante', 'PresupuestoInvertido']
         }
+
+        print(seleccionados)
 
         # Generar texto del reporte con IA
         service = GeneradorReporteService()

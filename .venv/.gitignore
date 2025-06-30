@@ -1,7 +1,2 @@
 # Created by venv; see https://docs.python.org/3/library/venv.html
-# Archivos de ambiente
-.env
-
-# Archivos de caché de Python
-__pycache__/
-*.py[cod]
+*

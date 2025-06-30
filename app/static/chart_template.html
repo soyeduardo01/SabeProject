@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráficos SABE</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      padding: 20px;
+      background: #fff;
+    }
+    .grafico {
+      margin-bottom: 30px;
+    }
+    canvas {
+      max-width: 700px;
+      max-height: 400px;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Contenedores de los gráficos -->
+  <div class="grafico"><canvas id="graficoProvincia"></canvas></div>
+  <div class="grafico"><canvas id="graficoGenero"></canvas></div>
+  <div class="grafico"><canvas id="graficoNivelTipo"></canvas></div>
+  <div class="grafico"><canvas id="graficoEdad"></canvas></div>
+  <div class="grafico"><canvas id="graficoIndice"></canvas></div>
+  <div class="grafico"><canvas id="graficoPresupuesto"></canvas></div>
+
+  <script>
+    window.renderCharts = function(datos) {
+      function crearGrafico(idCanvas, tipo, labels, datos, opcionesExtra = {}) {
+        const ctx = document.getElementById(idCanvas).getContext('2d');
+        return new Chart(ctx, {
+          type: tipo,
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Cantidad',
+              data: datos,
+              backgroundColor: [
+                '#16a085', '#27ae60', '#2980b9', '#8e44ad',
+                '#e67e22', '#e74c3c', '#2c3e50', '#f39c12'
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } },
+            ...opcionesExtra
+          }
+        });
+      }
+
+      crearGrafico("graficoProvincia", "bar",
+        Object.keys(datos.provincia), Object.values(datos.provincia));
+
+      crearGrafico("graficoGenero", "pie",
+        Object.keys(datos.genero), Object.values(datos.genero));
+
+      const tipos = Object.keys(datos.nivel_tipo);
+      const niveles = [...new Set(tipos.flatMap(t => Object.keys(datos.nivel_tipo[t])))];
+
+      const datasets = niveles.map(nivel => ({
+        label: nivel,
+        data: tipos.map(tipo => datos.nivel_tipo[tipo][nivel] || 0),
+        backgroundColor: '#' + Math.floor(Math.random()*16777215).toString(16)
+      }));
+
+      new Chart(document.getElementById("graficoNivelTipo").getContext("2d"), {
+        type: "bar",
+        data: {
+          labels: tipos,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+
+      crearGrafico("graficoEdad", "bar",
+        Object.keys(datos.edad), Object.values(datos.edad));
+
+      crearGrafico("graficoIndice", "bar",
+        Object.keys(datos.indice), Object.values(datos.indice));
+
+      crearGrafico("graficoPresupuesto", "doughnut",
+        Object.keys(datos.presupuesto), Object.values(datos.presupuesto));
+
+      // Esperar que los gráficos se dibujen antes de marcar como completado
+      setTimeout(() => {
+        window.renderComplete = true;
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
