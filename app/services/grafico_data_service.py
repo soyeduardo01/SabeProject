@@ -14,6 +14,7 @@ class GraficoDataService:
         self.presupuesto = presupuesto
         self.inversion = inversion
         self.restante = restante
+        
 
     def por_provincia(self) -> Dict[str, int]:
         return dict(Counter(p.provincia for p in self.seleccionados if p.provincia))
@@ -67,6 +68,7 @@ class GraficoDataService:
         """
         Devuelve todos los datos listos para ser convertidos en gráficos.
         """
+        
         return {
             "provincia": self.por_provincia(),
             "genero": self.por_genero(),

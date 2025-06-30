@@ -414,14 +414,15 @@ function generarInformePDF() {
     formData.append('PresupuestoInvertido', inversion);
     formData.append('PresupuestoSobrante', restante);
 
-    const claves = columnasPostulante
-        .filter(c => c.key !== 'prioridad')  // 👈 Excluye prioridad
-        .map(c => c.key);
-
+     const claves = columnasPostulante.map(C => C.key);
 
     // Capturar y mapear datos limpios de ambas tablas
     const seleccionados     = mapearPostulantesDesdeTabla('tablaPostulantes', claves);
     const no_seleccionados  = mapearPostulantesDesdeTabla('tablaNoPostulantes', claves);
+
+    console.log(seleccionados);
+    console.log("Hola:");
+    console.log("SeleccionadosJSON:", JSON.stringify(seleccionados, null, 2));
 
     // Convertir a JSON para el backend
     formData.append('SeleccionadosJSON', JSON.stringify(seleccionados));

@@ -1,0 +1,22 @@
+{
+    "provincia": {},
+    "genero": {},
+    "nivel_tipo": {},
+    "edad": {
+        "18-25": 0,
+        "26-30": 0,
+        "31-40": 0,
+        "41+": 0
+    },
+    "indice": {
+        "80-85": 0,
+        "86-90": 0,
+        "91-95": 0,
+        "96-100": 0
+    },
+    "presupuesto": {
+        "Presupuesto total": 700000.0,
+        "Monto invertido": 550001.6,
+        "Presupuesto sobrante": 149998.4
+    }
+}

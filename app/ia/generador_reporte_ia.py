@@ -8,7 +8,7 @@ load_dotenv()
 
 # Obtener la clave de API desde la variable de entorno
 clave = os.getenv('GOOGLE_API_KEY')
-print(clave)
+
 # Configurar la librería de Gemini (Generative AI)
 genai.configure(api_key=clave)
 

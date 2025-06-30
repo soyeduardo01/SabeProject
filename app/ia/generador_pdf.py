@@ -6,6 +6,46 @@ import base64
 from datetime import datetime
 from flask import make_response, current_app
 
+
+def generar_html_graficos(imagenes, fecha_actual):
+    if not imagenes:
+        return ''
+
+    TITULOS = [
+        ("Figura 1.", "Distribución de postulantes por provincia.",
+         "Este gráfico muestra la cantidad de postulantes seleccionados por cada provincia."),
+        ("Figura 2.", "Distribución de postulantes según género.",
+         "Representación porcentual de los géneros de los postulantes seleccionados."),
+        ("Figura 3.", "Nivel socioeconómico por tipo de institución.",
+         "Se comparan los niveles socioeconómicos en función del tipo de institución."),
+        ("Figura 4.", "Postulantes seleccionados por rango de edad.",
+         "Clasificación de postulantes según rangos de edad."),
+        ("Figura 5.", "Distribución de postulantes por índice académico.",
+         "Rangos de índice académico alcanzado por los postulantes."),
+        ("Figura 6.", "Distribución del presupuesto.",
+         "Comparativa entre el monto invertido y el presupuesto sobrante.")
+    ]
+
+    html = '<div class="section-title">Análisis Gráfico de Resultados</div>'
+
+    for i, img in enumerate(imagenes):
+        titulo, subtitulo, nota = TITULOS[i] if i < len(TITULOS) else (f"Figura {i+1}.", "Gráfico", "Nota: generado por el SABE.")
+        html += f'''
+        <div class="grafico-img">
+          <div class="titulo-figura">
+            <strong>{titulo}</strong>
+            <p><em>{subtitulo}</em></p>
+          </div>
+          <img src="{img}" alt="Gráfico {i+1}" />
+          <div class="nota-figura">
+            Nota. {nota} Generado por SABE el {fecha_actual}.
+          </div>
+        </div>
+        '''
+
+    return html
+
+
 def generar_pdf(texto, imagenes_base64=None):
     if not isinstance(texto, str):
         texto = str(texto)
@@ -45,15 +85,7 @@ def generar_pdf(texto, imagenes_base64=None):
             else:
                 contenido = bloque.replace('\n', '<br>')
                 html += f'<p>{contenido}</p>'
-        return html
-
-    def generar_html_graficos(imagenes):
-        if not imagenes:
-            return ''
-        html = '<div class="section-title">Análisis Gráfico de Resultados</div>'
-        for img in imagenes:
-            html += f'<div class="grafico-img"><img src="{img}" alt="Gráfico" /></div>'
-        return html
+        return html       
 
     html_content = f"""
     <!DOCTYPE html>
@@ -117,6 +149,7 @@ def generar_pdf(texto, imagenes_base64=None):
           list-style: disc;
         }}
         ul li {{ margin-bottom:6px; }}
+
         .grafico-img {{
           margin: 20px auto;
           text-align: center;
@@ -126,6 +159,25 @@ def generar_pdf(texto, imagenes_base64=None):
           max-height: 400px;
           border: 1px solid #ccc;
         }}
+        .titulo-figura {{
+          font-size: 12pt;
+          color: #027155;
+          font-weight: 600;
+          text-align: left;
+          margin-bottom: 8px;
+        }}
+        .titulo-figura em {{
+          font-weight: normal;
+          color: #000000;
+          font-style: italic;
+        }}
+        .nota-figura {{
+          font-size: 10pt;
+          color: #2d3748;
+          text-align: left;
+          margin-top: 6px;
+        }}
+
         .document-footer {{
           margin-top:30px; text-align:center;
           font-size:9pt; color:#718096;
@@ -135,6 +187,7 @@ def generar_pdf(texto, imagenes_base64=None):
           font-size:7pt; color:#718096; margin-top:6px;
         }}
       </style>
+
     </head>
     <body>
       <div class="header">
@@ -145,7 +198,7 @@ def generar_pdf(texto, imagenes_base64=None):
         <div class="divider"></div>
       </div>
       {procesar_contenido(texto)}
-      {generar_html_graficos(imagenes_base64)}
+      {generar_html_graficos(imagenes_base64, fecha_actual)}
       <div class="document-footer">
         Sistema de Asignación de Becas Educativas (SABE) – {fecha_actual}
         <div class="footer-note">
