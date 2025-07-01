@@ -46,7 +46,7 @@ def generar_html_graficos(imagenes, fecha_actual):
     return html
 
 
-def generar_pdf(texto, imagenes_base64=None):
+def generar_pdf(texto, ruta_json, imagenes_base64=None):
     if not isinstance(texto, str):
         texto = str(texto)
     if imagenes_base64 is None:
@@ -223,6 +223,14 @@ def generar_pdf(texto, imagenes_base64=None):
         wkhtmltopdf="C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
     )
     pdf_bytes = pdfkit.from_string(html_content, False, options=options, configuration=config)
+
+    # ✅ Limpieza de archivos temporales
+    
+    try:
+        os.remove(ruta_json)
+    except Exception as e:
+        print(f"Error al eliminar {ruta_json}: {e}")
+
 
     response = make_response(pdf_bytes)
     response.headers['Content-Type'] = 'application/pdf'

@@ -58,6 +58,7 @@ Utiliza la siguiente estructura con marcas claras:
 - Usa **texto** para marcar fragmentos importantes en negrita.
 
 NO utilices etiquetas HTML ni tablas.
+Si vas a usar listas, prioriza las que sean listas ordenadadas.
 
 Incluye la siguiente información:
 

@@ -60,4 +60,4 @@ class GeneradorReporteService:
         imagenes_base64 = generar_graficos_base64(ruta_json)
 
         # Paso 5: Generar el PDF incluyendo texto y gráficos
-        return generar_pdf(texto, imagenes_base64)
+        return generar_pdf(texto, ruta_json, imagenes_base64)
