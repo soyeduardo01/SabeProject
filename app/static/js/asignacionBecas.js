@@ -420,10 +420,6 @@ function generarInformePDF() {
     const seleccionados     = mapearPostulantesDesdeTabla('tablaPostulantes', claves);
     const no_seleccionados  = mapearPostulantesDesdeTabla('tablaNoPostulantes', claves);
 
-    console.log(seleccionados);
-    console.log("Hola:");
-    console.log("SeleccionadosJSON:", JSON.stringify(seleccionados, null, 2));
-
     // Convertir a JSON para el backend
     formData.append('SeleccionadosJSON', JSON.stringify(seleccionados));
     formData.append('NoSeleccionadosJSON', JSON.stringify(no_seleccionados));
@@ -510,3 +506,5 @@ function descargarArchivo(blob, nombreArchivo) {
     a.remove();
     window.URL.revokeObjectURL(url);
 }
+
+

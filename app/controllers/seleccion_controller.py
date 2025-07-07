@@ -3,7 +3,8 @@
 from flask import request, jsonify
 from app.utils.excel_parser import leer_postulantes_desde_excel
 from app.services.seleccion_service import SeleccionService
-from app.services.estrategia_dinamica import EstrategiaDinamica  # Puedes cambiar por otra estrategia
+from app.services.estrategia_dinamica import EstrategiaDinamica 
+from app.services.estrategia_voraz import EstrategiaVoraz
 
 def procesar_filtros():
     """
@@ -46,8 +47,16 @@ def procesar_filtros():
             "monto_requerido": request.form.get('monto_requerido')
         }
 
-        servicio = SeleccionService(estrategia=EstrategiaDinamica())
-        resultado = servicio.seleccionar_postulantes(postulantes, filtros, presupuesto)
+        if algoritmo == 'greedy':
+            servicio = SeleccionService(estrategia=EstrategiaVoraz())
+            resultado = servicio.seleccionar_postulantes(postulantes, filtros, presupuesto)
+
+        elif algoritmo == 'dynamic':
+            servicio = SeleccionService(estrategia=EstrategiaDinamica())
+            resultado = servicio.seleccionar_postulantes(postulantes, filtros, presupuesto)
+
+        else:
+         return jsonify({"error": "Algoritmo no seleccionado"}), 400
 
         return jsonify({
             "seleccionados": [p.to_dict() for p in resultado["seleccionados"]],
