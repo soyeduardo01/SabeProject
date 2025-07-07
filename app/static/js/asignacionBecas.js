@@ -12,7 +12,7 @@ $(document).ready(function () {
         placement: 'bottom',
         html: true
     });
-     $('#btnGenerarInforme, #btnGenerarExcel').hide();
+     $('#btnGenerarInforme').hide();
      $('#btnGenerarInforme').on('click', function () {
         generarInformePDF();
     });
@@ -213,7 +213,7 @@ function enviarFormularioConFiltros(archivoExcel, algoritmo) {
         llenarTabla('tablaNoPostulantes', data.no_seleccionados);
         mostrarSeccionesResultado();
           
-        $('#btnGenerarInforme, #btnGenerarExcel').fadeIn();
+        $('#btnGenerarInforme').fadeIn();
         $('#PresupuestoInvertido').val(data.presupuesto_invertido).prop('readonly', true);
         $('#PresupuestoSobrante').val(data.presupuesto_sobrante).prop('readonly', true);
 
@@ -401,7 +401,6 @@ function configurarSliders() {
 function generarInformePDF() {
     $('#processBtn').prop('disabled', true);
     $('#btnGenerarInforme').prop('disabled', true);
-    $('#btnGenerarExcel').prop('disabled', true);
     $('#spinnerPdf').show();
 
     const form = $('#formFiltros')[0];
@@ -436,7 +435,6 @@ function generarInformePDF() {
             $('#spinnerPdf').hide();
             $('#processBtn').prop('disabled', false);
             $('#btnGenerarInforme').prop('disabled', false);
-            $('#btnGenerarExcel').prop('disabled', false);
             descargarArchivo(blob, 'informe_asignacion_becas_sabe.pdf');
         },
         error: function (xhr, status, error) {

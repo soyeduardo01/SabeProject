@@ -78,10 +78,9 @@ python main.py
 
 ## 📌 Funcionalidades principales
 
-- 📥 Carga de archivos Excel con encabezado personalizado (fila 5)  
+- 📥 Carga de archivos Excel con encabezado personalizado 
 - 🎯 Aplicación de filtros configurables con sliders dinámicos  
-- 🧠 Algoritmo de selección configurable: Programación Dinámica o Greedy  
-- 🧾 Generación de reportes detallados en Excel  
+- 🧠 Algoritmo de selección configurable: Programación Dinámica o Voraz/Greedy
 - 🤖 Generación de informe final en PDF (Google Gemini AI) y con gráficos incluidos  
 - 💻 Interfaz moderna, responsiva y con validaciones en tiempo real  
 
