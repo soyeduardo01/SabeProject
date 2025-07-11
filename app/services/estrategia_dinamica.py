@@ -4,7 +4,9 @@ from typing import List
 
 class EstrategiaDinamica(IEstrategiaSeleccion):
     def seleccionar_postulantes(self, postulantes: List[Postulante], presupuesto: float) -> dict:
-        granularidad = 10  # 10 = precisión de RD$0.10
+        # 100 = precisión de RD$1.00
+        # Nota: Mientras menor sea la granularidad, tendrá mayor presición y tiempo de procesamiento.
+        granularidad = 100  
 
         presupuesto_unidades = int(round(presupuesto * 100 / granularidad))
         pesos = [int(round(p.monto_requerido * 100 / granularidad)) for p in postulantes]

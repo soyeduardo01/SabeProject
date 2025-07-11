@@ -119,7 +119,14 @@
                 <img src="{{ url_for('static', filename='img/stars.png') }}" alt="GENERAR PDF CON IA" class="starts-pdf">
                 Generar Informe .PDF con IA
             </button>
-            <span id="spinnerPdf" class="spinner-border spinner-border-sm text-success ms-2" style="display:none;" role="status"></span>
+            <span id="spinnerPdf" class="spinner-container mt-2 text-end" style="display:none;" role="status">
+                <span class="ai-processing-text">Procesando informe</span>
+                <div class="ai-dots">
+                    <div class="ai-dot"></div>
+                    <div class="ai-dot"></div>
+                    <div class="ai-dot"></div>
+                </div>
+            </span>
         </div>
     </div>
 

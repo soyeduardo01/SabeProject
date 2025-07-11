@@ -1,7 +1,7 @@
 
 # 👨‍🎓 SABE - Sistema de Asignación de Becas Educativas
 
-Sistema web que permite seleccionar a los estudiantes más adecuados para becas educativas, aplicando algoritmos como **Programación Dinámica** y **Greedy**, bajo principios **SOLID**, el patrón de diseño **Strategy** y una arquitectura **MVC** limpia y escalable.
+Sistema web que permite seleccionar a los estudiantes más adecuados para becas educativas, aplicando algoritmos como **Programación Dinámica** y **Programación Voraz**, bajo principios **SOLID**, el patrón de diseño **Strategy** y una arquitectura **MVC** limpia y escalable.
 
 Incluye generación de informes PDF con visualizaciones gráficas y uso de inteligencia artificial.
 

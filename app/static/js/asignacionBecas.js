@@ -458,36 +458,56 @@ function cleanHTML(texto) {
 
 
 /**
- * Mapea los datos de una tabla construida con `llenarTabla()` usando los keys definidos.
- * @param {string} idTabla - ID de la tabla HTML.
- * @param {string[]} keys - Orden de claves usado para generar las columnas.
- * @returns {Object[]} - Lista de objetos Postulante limpios y listos.
+ * Devuelve un arreglo de objetos Postulante a partir de la tabla indicada.
+ * Si la tabla no existe o está vacía retorna [].
+ *
+ * @param {string} idTabla  ID de la tabla HTML.
+ * @param {string[]} keys   Orden de claves usado para generar las columnas.
+ * @returns {Object[]}      Array de postulantes ya limpios.
  */
 function mapearPostulantesDesdeTabla(idTabla, keys) {
-    const rows = $(`#${idTabla}`).DataTable().rows().data().toArray();
+    const $tabla = $(`#${idTabla}`);
 
-    return rows.map(fila => {
+    // 1) ¿Existe y está inicializada como DataTable?
+    if (!$tabla.length || !$.fn.dataTable.isDataTable($tabla)) {
+        return [];
+    }
+
+    const dt    = $tabla.DataTable();
+    const filas = dt.rows();
+
+    // 2) ¿Tiene filas?
+    if (!filas || filas.count() === 0) {
+        return [];
+    }
+
+    // 3) Mapear cada fila al objeto destino
+    return filas.data().toArray().map(fila => {
         const obj = {};
 
         keys.forEach((key, i) => {
             let valor = cleanHTML(fila[i]);
 
-            if (key === "monto_requerido") {
-                valor = parseFloat(valor.replace(/[^\d.]/g, "")) || 0;
-            } else if (key === "indice") {
-                valor = parseFloat(valor) || 0;
-            } else if (key === "edad") {
-                valor = parseInt(valor) || 0;
+            switch (key) {
+                case 'monto_requerido':
+                    valor = parseFloat(valor.replace(/[^\d.]/g, '')) || 0;
+                    break;
+                case 'indice':
+                    valor = parseFloat(valor) || 0;
+                    break;
+                case 'edad':
+                    valor = parseInt(valor) || 0;
+                    break;
+                default:
+                    // Otros campos: quedan como texto plano
+                    break;
             }
-
             obj[key] = valor;
         });
 
         return obj;
     });
 }
-
-
 
 /**
  * Descarga el archivo blob generado.
